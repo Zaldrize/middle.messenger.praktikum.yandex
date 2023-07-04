@@ -1,11 +1,10 @@
-import Handlebars from 'handlebars';
-import profileTemplate from './profile.template';
+import profile from './profile.hbs'
 
 export default function GetProfilePage() {
     const data = {
         name: "Galina"
     }
-    const template = Handlebars.compile(profileTemplate);
-    const result = template({name: "Galina"});
+    
+    const result = profile({name: "Galina"});
     return result;
 };
