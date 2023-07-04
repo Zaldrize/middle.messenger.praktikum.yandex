@@ -1,15 +1,16 @@
 import last from "./utils/last";
-import GetProfilePage from "./pages/register/register";
 import { ServerError, NotFoundError } from "./pages/error/error";
 import GetLoginPage from "./pages/login/login";
 import GetRegisterPage from "./pages/register/register";
+import getProfile from "./pages/profile/profile";
+
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
     const path = last(window.location.pathname.split('/')).toLowerCase();
     switch (path)
     {
         case 'profile':
-            root.innerHTML = GetProfilePage();
+            root.innerHTML = getProfile();
             break;
         case 'servererror':
             root.innerHTML = ServerError();
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'register':
             root.innerHTML = GetRegisterPage();
             break;
+        
         default:
             break;
 
