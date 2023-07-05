@@ -1,5 +1,5 @@
 import error from './error.hbs'
-import './error.css'
+import './error.less'
 
 export function ServerError() {
     const errorContext = { StatusCode: 500, Text: "Уже исправляем"}
