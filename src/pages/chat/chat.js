@@ -1,5 +1,7 @@
 import chat from './chat.hbs'
-import './chat.css'
+import './chat.less'
+import './chatItem/chatItem.less'
+import sendPic from '../../../static/sendPic.svg'
 
 export default function getChat() {
     const chatItems = [
@@ -18,7 +20,9 @@ export default function getChat() {
             }
         }
     ];
-    const data = {};
+    const data = {
+        send: sendPic
+    };
     data.chatItems = chatItems;
     return chat(data);
 }
