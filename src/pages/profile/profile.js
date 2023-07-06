@@ -1,6 +1,6 @@
 import defaultUserPic from '../../../static/defaultUserPic.svg'
 import profile from './profile.hbs'
-import './profile.css'
+import './profile.less'
 
 export default function getProfile(){
     const profileModel = {
