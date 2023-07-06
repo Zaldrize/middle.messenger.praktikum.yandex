@@ -4,4 +4,4 @@ export default function GetRegisterPage() {
    
     const result = register({});
     return result;
-};
+}
