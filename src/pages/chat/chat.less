@@ -1,0 +1,64 @@
+.chat
+{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;  
+    height: 100%;  
+    flex-grow: 2;
+}
+.chats
+{
+    width: 150px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex-wrap: nowrap;
+}
+.fillSpace
+{
+    flex-grow: 3;
+}
+
+.content
+{
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid black;
+    margin-left: 5px;
+    flex-grow: 2;
+    padding-left: 2%;
+    align-items: stretch;
+}
+.history
+{
+    flex-grow: 2;
+    height: 100%;
+    width: 100%;
+}
+
+.newMessage
+{
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+textarea {
+    width: 95%;
+    height: 100%; 
+    box-sizing: border-box;
+}
+
+.sendMessage
+{
+    width: fit-content;
+    height: 100%;
+    margin-left: 2%;
+    img
+    {
+        width: 30px;
+    }
+}

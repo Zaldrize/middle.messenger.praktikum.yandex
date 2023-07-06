@@ -1,6 +1,16 @@
+@import 'consts';
+#app
+{
+    display: flex;
+    height: 100%;
+}
+body, html, main
+{
+    height: 100%;
+}
 body
 {
-    background-color: #fbe0e8;
+    background-color: @background_color;
 }
 
 .div_center
@@ -20,43 +30,36 @@ label
     width: 150px;
     text-align: right;
     margin-top: 10px;
-    font-family:'Tahoma'
+    font-family: @font_family;
 }
-
-input[type="text"]
+input, textarea
 {
-    background-color: #f4e7e7;
+    background-color: @input_color;
     margin-top: 10px;
     margin-bottom: 5px;  
     border-radius: 10px;
-    height: 25px;
-    width: 170px;
+    padding-left: 10px;
+    min-height: 26px;
 }
 input[type="password"]
 {
-    background-color: #f4e7e7;
-    margin-top: 10px;
-    margin-bottom: 5px;    
-    border-radius: 10px;
-    height: 25px; 
     width: 170px;
 }
 button
 {
-    background-color: #B87FDB;
-    color: white;
+    background-color: @button_color;
+    color: @button_font_color;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
-    font-family:'Tahoma';
+    font-family: @font_family;
     text-align: center;
     border: none;    
     height: 40px;
 }
 button[type="submit"]
 {
-    border-color: #630A99;
-    border-width: 10px;
+    border: 2px solid darken(@button_color, 50%);
 }
 

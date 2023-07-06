@@ -1,0 +1,17 @@
+<div class="chat">
+    <div class="chats">
+        {{#each chatItems}}
+            {{> chatItemPartial this}}
+        {{/each}}
+    </div>
+    <div class="content">
+        <div class="history">
+        </div>
+        <div class="newMessage">
+            <textarea type="text" name="message"></textarea>
+            <button class="sendMessage">
+                <img src="{{send}}"></svg>
+            </button>
+        </div>
+    </div>
+</div>
