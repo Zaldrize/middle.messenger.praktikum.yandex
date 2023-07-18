@@ -1,9 +1,10 @@
-import chat from './chat.hbs';
-import './chat.less';
-import './chatItem/chatItem.less';
-import sendPic from '../../../static/sendPic.svg';
+import chat from './chat.hbs'
+import './chat.less'
+import './chatItem/chatItem.less'
+import sendPic from '../../../static/sendPic.svg'
+
 export default function getChat() {
-    const chatItems = [
+    const chatItems: Record<string, any>[] = [
         {
             chatName: 'Мама',
             lastMessage: {

@@ -10,8 +10,11 @@ import getChat from "./pages/chat/chat";
 import './style.less'
 
 document.addEventListener('DOMContentLoaded', () => {
-    const root = document.getElementById("app");
-    const path = last(window.location.pathname.split('/')).toLowerCase();
+    const root: HTMLElement | null = document.getElementById("app");
+    if (!root) {
+        return;
+    }
+    const path: string = last(window.location.pathname.split('/')).toLowerCase();
     switch (path)
     {
         case 'profile':
