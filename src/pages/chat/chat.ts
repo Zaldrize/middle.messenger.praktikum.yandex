@@ -4,7 +4,7 @@ import './chatItem/chatItem.less'
 import sendPic from '../../../static/sendPic.svg'
 
 export default function getChat() {
-    const chatItems: Record<string, any>[] = [
+    const chatItems = [
         {
             chatName: 'Мама',
             lastMessage: {

@@ -5,7 +5,7 @@
       "module": "ESNext",
       "lib": ["ESNext", "DOM"],
       "moduleResolution": "Node",
-      "strict": true,
+      "alwaysStrict": true,
       "resolveJsonModule": true,
       "isolatedModules": true,
       "esModuleInterop": true,
