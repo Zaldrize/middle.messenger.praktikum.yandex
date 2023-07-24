@@ -1,11 +1,9 @@
 import Block from "../block"
 import button from './button.hbs'
+import { ButtonProps } from "./types";
+import './button.less';
 
-type ButtonProps = {
-    "text": string;
-}
-
-export class Button extends Block<ButtonProps>{
+export default class Button extends Block<ButtonProps>{
     render() {
         return this.compile(button, {...this._props});
     }

@@ -97,10 +97,10 @@ class Block<T extends Record<string,any>> {
 
   _render() {
     const block = this.render();
-   // this._removeEvents();
+    this._removeEvents();
     this._element.innerHTML = '';
     this._element.appendChild(block);
-   // this._addEvents();
+    this._addEvents();
   }
 
     // Переопределяется пользователем. Необходимо вернуть разметку
@@ -159,7 +159,21 @@ class Block<T extends Record<string,any>> {
 
     return fragment.content;       
 }
+  _addEvents() {
+    const {events = {}} = this._props;
 
+    Object.keys(events).forEach(eventName => {
+      this._element.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  _removeEvents() {
+    const {events = {}} = this._props;
+
+    Object.keys(events).forEach(eventName => {
+      this._element.removeEventListener(eventName, events[eventName]);
+    });
+  }
   show() {
     this.getContent().style.display = "block";
   }
