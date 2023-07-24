@@ -1,8 +1,8 @@
-import { EventBus } from "../utils/eventBus";
-import {v4 as makeUUID} from 'uuid';
+import { EventBus } from "../../utils/eventBus";
+import { v4 as makeUUID } from 'uuid';
 
 // Нельзя создавать экземпляр данного класса
-class Block<T extends Record<string,any>> {
+class Block<T extends Record<string, any>> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -20,13 +20,13 @@ class Block<T extends Record<string,any>> {
 
   constructor(tagName: keyof HTMLElementTagNameMap = "div", propsAndChildren: T) {
     const eventBus = new EventBus();
-    const {props, children} = this.getChildren(propsAndChildren);
+    const { props, children } = this.getChildren(propsAndChildren);
     this._props = this._makePropsProxy(props);
     this._children = children;
     this._meta = {
       tagName,
       props
-    };   
+    };
     this.id = makeUUID();
     this._eventBus = eventBus;
     this._registerEvents(eventBus);
@@ -39,10 +39,10 @@ class Block<T extends Record<string,any>> {
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
-                children[key] = value;
+        children[key] = value;
       } else {
-                props[key] = value;
-            }
+        props[key] = value;
+      }
     });
 
     return { children, props };
@@ -51,6 +51,7 @@ class Block<T extends Record<string,any>> {
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this))
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -69,17 +70,20 @@ class Block<T extends Record<string,any>> {
   }
 
   // eslint-disable-next-line
-  componentDidMount(oldProps: Record<string, any>) {}
+  componentDidMount(oldProps: Record<string, any>) { }
 
-    dispatchComponentDidMount() {
-        this._eventBus.emit(Block.EVENTS.FLOW_CDM);
-    }
-    // eslint-disable-next-line
-  _componentDidUpdate(oldProps: T, newProps: T) {
-
+  dispatchComponentDidMount() {
+    this._eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
   // eslint-disable-next-line
-  componentDidUpdate(oldProps: T, newProps: T) {
+  _componentDidUpdate(oldProps: T, newProps: T) {
+    let update = this.componentDidUpdate(oldProps, newProps);
+    if (update) {
+      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+  }
+  // eslint-disable-next-line
+  componentDidUpdate(oldProps: Record<string,any>, newProps: Record<string, any>): boolean {
     return true;
   }
 
@@ -87,8 +91,12 @@ class Block<T extends Record<string,any>> {
     if (!nextProps) {
       return;
     }
-
-    Object.assign(this._props, nextProps);
+    const update = this.componentDidUpdate(this._props, nextProps);
+    if (update) {
+      Object.assign(this._props, nextProps);
+      this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+    
   }
 
   get element() {
@@ -103,9 +111,9 @@ class Block<T extends Record<string,any>> {
     this._addEvents();
   }
 
-    // Переопределяется пользователем. Необходимо вернуть разметку
+  // Переопределяется пользователем. Необходимо вернуть разметку
   render(): any {
-    
+
   }
 
   getContent() {
@@ -113,9 +121,6 @@ class Block<T extends Record<string,any>> {
   }
 
   _makePropsProxy(props: Record<string, any>): Record<string, any> {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
-    const self = this;
     // eslint-disable-next-line
     return new Proxy<Record<string, any>>(props, {
       get(target: Record<string, any>, prop: string) {
@@ -123,8 +128,7 @@ class Block<T extends Record<string,any>> {
         return typeof value === "function" ? value.bind(target) : value
       },
       set(target: Record<string, any>, prop: string, value) {
-        (target[prop] as T) = value;
-        self._eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+        (target[prop] as T) = value;        
         return true;
       },
       deleteProperty() {
@@ -138,13 +142,13 @@ class Block<T extends Record<string,any>> {
     element.setAttribute('data-id', this.id);
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
     return element;
-}
+  }
 
-  compile(template: (param?: any)=> string, props: Record<string, any>) {
+  compile(template: (param?: any) => string, props: Record<string, any>) {
     const propsAndStubs = { ...props };
 
     Object.entries(this._children).forEach(([key, child]) => {
-        propsAndStubs[key] = `<div data-id="${child.id}"></div>`
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`
     });
 
     const fragment = this._createDocumentElement('template');
@@ -152,15 +156,15 @@ class Block<T extends Record<string,any>> {
     fragment.innerHTML = template(propsAndStubs);
 
     Object.values(this._children).forEach(child => {
-        const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
-        
-        stub?.replaceWith(child.getContent());
+      const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
+
+      stub?.replaceWith(child.getContent());
     });
 
-    return fragment.content;       
-}
+    return fragment.content;
+  }
   _addEvents() {
-    const {events = {}} = this._props;
+    const { events = {} } = this._props;
 
     Object.keys(events).forEach(eventName => {
       this._element.addEventListener(eventName, events[eventName]);
@@ -168,7 +172,7 @@ class Block<T extends Record<string,any>> {
   }
 
   _removeEvents() {
-    const {events = {}} = this._props;
+    const { events = {} } = this._props;
 
     Object.keys(events).forEach(eventName => {
       this._element.removeEventListener(eventName, events[eventName]);

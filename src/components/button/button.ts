@@ -1,4 +1,4 @@
-import Block from "../block"
+import Block from "../block/block"
 import button from './button.hbs'
 import { ButtonProps } from "./types";
 import './button.less';
