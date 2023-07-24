@@ -14,7 +14,7 @@ class Block<T extends IBlockProps> {
   _element: HTMLElement;
   _meta;
   _props: Record<string, any>;
-  _attributes: Record<string, string|number|boolean>;
+  _attributes: Record<string, string | number | boolean>;
   _children: Record<string, any>;
   _events: IBlockEvents
   _eventBus: EventBus;
@@ -23,7 +23,7 @@ class Block<T extends IBlockProps> {
 
   constructor(tagName: keyof HTMLElementTagNameMap = "div", blockProps: T) {
     const eventBus = new EventBus();
-    const {attributes, events, ...propsAndChildren} = blockProps;
+    const { attributes, events, ...propsAndChildren } = blockProps;
     if (attributes)
       this._attributes = attributes;
     if (events)
@@ -91,28 +91,28 @@ class Block<T extends IBlockProps> {
     }
   }
   // eslint-disable-next-line
-  componentDidUpdate(newProps:T): boolean {
+  componentDidUpdate(newProps: T): boolean {
     return true;
   }
 
-  setProps(nextProps:T) {
+  setProps(nextProps: T) {
     if (!nextProps) {
       return;
     }
     const update = this.componentDidUpdate(nextProps);
     if (update) {
-      const {attributes, events, ...propsAndChildren} = nextProps;
+      const { attributes, events, ...propsAndChildren } = nextProps;
       if (attributes)
         Object.assign(this._attributes, attributes);
       if (events)
         Object.assign(this._events, events);
-      const {children, props} = this.getChildren(propsAndChildren);
+      const { children, props } = this.getChildren(propsAndChildren);
       Object.assign(this._props, props);
       if (children)
         Object.assign(this._children, children); // ???
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
-    
+
   }
 
   get element() {
@@ -144,7 +144,7 @@ class Block<T extends IBlockProps> {
         return typeof value === "function" ? value.bind(target) : value
       },
       set(target: Record<string, any>, prop: string, value) {
-        (target[prop] as T) = value;        
+        (target[prop] as T) = value;
         return true;
       },
       deleteProperty() {
@@ -176,26 +176,25 @@ class Block<T extends IBlockProps> {
 
       stub?.replaceWith(child.getContent());
     });
-
+    this._attributes && Object.keys(this._attributes).forEach((key) => {
+      this._element.setAttribute(key, this._attributes[key].toString());
+  });
     return fragment.content;
   }
   _addEvents() {
-    Object.keys(this._events).forEach(eventName => {
-      this._element.addEventListener(eventName, this._events[eventName]);
-    });
+    if (this._events) {
+      Object.keys(this._events).forEach(eventName => {
+        this._element.addEventListener(eventName, this._events[eventName]);
+      });
+    }
   }
 
   _removeEvents() {
-    Object.keys(this._events).forEach(eventName => {
-      this._element.removeEventListener(eventName, this._events[eventName]);
-    });
-  }
-  show() {
-    this.getContent().style.display = "block";
-  }
-
-  hide() {
-    this.getContent().style.display = "none";
+    if (this._events) {
+      Object.keys(this._events).forEach(eventName => {
+        this._element.removeEventListener(eventName, this._events[eventName]);
+      });
+    }
   }
 }
 

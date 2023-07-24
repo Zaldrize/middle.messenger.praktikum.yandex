@@ -1,25 +1,22 @@
-//import last from "./utils/last";
+import last from "./utils/last";
 import chatItem from './pages/chat/chatItem/chatItem.hbs'
 import Handlebars from "handlebars/runtime";
 Handlebars.registerPartial('chatItemPartial', chatItem);
-/*import { ServerError, NotFoundError } from "./pages/error/error";
-import GetLoginPage from "./pages/login/login";
+import { ServerError, NotFoundError } from "./pages/error/error";
 import GetRegisterPage from "./pages/register/register";
 import getProfile from "./pages/profile/profile";
-import getChat from "./pages/chat/chat";*/
+import getChat from "./pages/chat/chat";
 import './style.less'
+import LoginPage from "./pages/login";
 import { render } from "./renderDOM";
-import { Button } from "./components/button/button";
 
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
     if (!root) {
         return;
     }
-    const button = new Button('div', {text: "кнопочка"});
-    render('#app', button);
-    return;
-    /*const path: string = last(window.location.pathname.split('/')).toLowerCase();
+
+    const path: string = last(window.location.pathname.split('/')).toLowerCase();
     switch (path)
     {
         case 'profile':
@@ -31,9 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'notfound':
             root.innerHTML = NotFoundError();
             break;
-        case 'login':
-            root.innerHTML = GetLoginPage();
+        case 'login': {
+            let loginPage = new LoginPage();
+            render('#app', loginPage);
             break;
+        }
         case 'register':
             root.innerHTML = GetRegisterPage();
             break;
@@ -43,5 +42,5 @@ document.addEventListener('DOMContentLoaded', () => {
         default:
             break;
 
-    }*/
+    }
 });
