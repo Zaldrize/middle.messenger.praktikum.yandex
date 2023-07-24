@@ -23,8 +23,10 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.2",
     "express": "^4.18.2",
     "less": "^4.1.3",
+    "uuid": "^9.0.0",
     "vite-plugin-handlebars": "^1.6.0"
   },
   "engines": {
