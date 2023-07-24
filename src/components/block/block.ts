@@ -1,8 +1,9 @@
 import { EventBus } from "../../utils/eventBus";
 import { v4 as makeUUID } from 'uuid';
+import { IBlockEvents, IBlockProps } from "./types";
 
 // Нельзя создавать экземпляр данного класса
-class Block<T extends Record<string, any>> {
+class Block<T extends IBlockProps> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -13,13 +14,20 @@ class Block<T extends Record<string, any>> {
   _element: HTMLElement;
   _meta;
   _props: Record<string, any>;
+  _attributes: Record<string, string|number|boolean>;
   _children: Record<string, any>;
+  _events: IBlockEvents
   _eventBus: EventBus;
   id: string;
 
 
-  constructor(tagName: keyof HTMLElementTagNameMap = "div", propsAndChildren: T) {
+  constructor(tagName: keyof HTMLElementTagNameMap = "div", blockProps: T) {
     const eventBus = new EventBus();
+    const {attributes, events, ...propsAndChildren} = blockProps;
+    if (attributes)
+      this._attributes = attributes;
+    if (events)
+      this._events = events;
     const { props, children } = this.getChildren(propsAndChildren);
     this._props = this._makePropsProxy(props);
     this._children = children;
@@ -33,7 +41,7 @@ class Block<T extends Record<string, any>> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  getChildren(propsAndChildren: T) {
+  getChildren(propsAndChildren: Record<string, any>) {
     const children: Record<string, any> = {};
     const props: Record<string, any> = {};
 
@@ -76,24 +84,32 @@ class Block<T extends Record<string, any>> {
     this._eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
   // eslint-disable-next-line
-  _componentDidUpdate(oldProps: T, newProps: T) {
-    let update = this.componentDidUpdate(oldProps, newProps);
+  _componentDidUpdate(newProps: T) {
+    let update = this.componentDidUpdate(newProps);
     if (update) {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
   // eslint-disable-next-line
-  componentDidUpdate(oldProps: Record<string,any>, newProps: Record<string, any>): boolean {
+  componentDidUpdate(newProps:T): boolean {
     return true;
   }
 
-  setProps(nextProps: Record<string, any>) {
+  setProps(nextProps:T) {
     if (!nextProps) {
       return;
     }
-    const update = this.componentDidUpdate(this._props, nextProps);
+    const update = this.componentDidUpdate(nextProps);
     if (update) {
-      Object.assign(this._props, nextProps);
+      const {attributes, events, ...propsAndChildren} = nextProps;
+      if (attributes)
+        Object.assign(this._attributes, attributes);
+      if (events)
+        Object.assign(this._events, events);
+      const {children, props} = this.getChildren(propsAndChildren);
+      Object.assign(this._props, props);
+      if (children)
+        Object.assign(this._children, children); // ???
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
     
@@ -144,8 +160,8 @@ class Block<T extends Record<string, any>> {
     return element;
   }
 
-  compile(template: (param?: any) => string, props: Record<string, any>) {
-    const propsAndStubs = { ...props };
+  compile(template: (param?: any) => string) {
+    const propsAndStubs = { ...this._props, ...this._attributes };
 
     Object.entries(this._children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`
@@ -164,18 +180,14 @@ class Block<T extends Record<string, any>> {
     return fragment.content;
   }
   _addEvents() {
-    const { events = {} } = this._props;
-
-    Object.keys(events).forEach(eventName => {
-      this._element.addEventListener(eventName, events[eventName]);
+    Object.keys(this._events).forEach(eventName => {
+      this._element.addEventListener(eventName, this._events[eventName]);
     });
   }
 
   _removeEvents() {
-    const { events = {} } = this._props;
-
-    Object.keys(events).forEach(eventName => {
-      this._element.removeEventListener(eventName, events[eventName]);
+    Object.keys(this._events).forEach(eventName => {
+      this._element.removeEventListener(eventName, this._events[eventName]);
     });
   }
   show() {

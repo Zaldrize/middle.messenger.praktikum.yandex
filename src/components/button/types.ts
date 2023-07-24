@@ -1,5 +1,7 @@
-export type ButtonProps = {
-    text: string;
-    text1: string;
-    events: {}
+import { IBlockProps } from "../block/types";
+
+export class ButtonProps implements IBlockProps {
+    text: string
+    attributes?: {}
+    events?: {}
 }

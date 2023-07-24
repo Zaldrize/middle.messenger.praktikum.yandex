@@ -5,10 +5,10 @@ import './button.less';
 
 export default class Button extends Block<ButtonProps>{
     render() {
-        return this.compile(button, {...this._props});
+        return this.compile(button);
     }
 
-    componentDidUpdate(oldProps: ButtonProps, newProps: ButtonProps): boolean {
-        return oldProps.text !== newProps.text;
+    componentDidUpdate( newProps: ButtonProps): boolean {
+        return this._props.text !== newProps.text;
     }
 }
