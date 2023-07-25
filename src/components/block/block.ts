@@ -124,6 +124,7 @@ class Block<T extends IBlockProps> {
     this._removeEvents();
     this._element.innerHTML = '';
     this._element.appendChild(block);
+    this.addAttributes();
     this._addEvents();
   }
 
@@ -176,10 +177,12 @@ class Block<T extends IBlockProps> {
 
       stub?.replaceWith(child.getContent());
     });
+    return fragment.content;
+  }
+  addAttributes() {
     this._attributes && Object.keys(this._attributes).forEach((key) => {
       this._element.setAttribute(key, this._attributes[key].toString());
   });
-    return fragment.content;
   }
   _addEvents() {
     if (this._events) {

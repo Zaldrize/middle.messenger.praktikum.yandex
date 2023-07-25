@@ -2,9 +2,8 @@ import Button from "../../components/button/button";
 import Input from "../../components/input";
 
 export class ProfilePageProps {
-    attributes: {
-        class: 'div_center';
-    };
+    attributes: {};
+    events: {};
     emailInput: Input;
     loginInput: Input;
     firstNameInput: Input;

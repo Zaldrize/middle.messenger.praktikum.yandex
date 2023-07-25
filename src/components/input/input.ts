@@ -9,8 +9,14 @@ export default class Input extends Block<InputProps> {
     }
     componentDidUpdate(newProps: Record<string, any>): boolean {
         return this._props.label !== newProps.label ||
-        this._attributes.labelClass !== newProps.attributes.labelClass ||
-        this._attributes.inputClass !== newProps.attributes.inputClass ||
-        this._attributes.type !== newProps.attributes.type
+            this._attributes.labelClass !== newProps.attributes.labelClass ||
+            this._attributes.inputClass !== newProps.attributes.inputClass ||
+            this._attributes.type !== newProps.attributes.type
+    }
+    addAttributes() {
+        this._attributes && Object.keys(this._attributes).forEach((key) => {
+            this._element.querySelector('input')
+            ?.setAttribute(key, this._attributes[key].toString());
+        });
     }
 }

@@ -8,6 +8,9 @@ import { ProfilePageProps } from './types'
 export default class ProfilePage extends Block<ProfilePageProps> {
     constructor() {
         const props = new ProfilePageProps();
+        props.attributes = {
+            class: 'div_center'
+        }
         props.emailInput = new Input('div', {
             label: 'Email',
             attributes: {
