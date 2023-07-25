@@ -3,12 +3,12 @@ import chatItem from './pages/chat/chatItem/chatItem.hbs'
 import Handlebars from "handlebars/runtime";
 Handlebars.registerPartial('chatItemPartial', chatItem);
 import { ServerError, NotFoundError } from "./pages/error/error";
-import GetRegisterPage from "./pages/register/register";
 import getChat from "./pages/chat/chat";
 import './style.less'
 import LoginPage from "./pages/login";
 import { render } from "./renderDOM";
 import ProfilePage from "./pages/profile/profile";
+import RegisterPage from "./pages/register/register";
 
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
@@ -35,9 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
             render('#app', loginPage);
             break;
         }
-        case 'register':
-            root.innerHTML = GetRegisterPage();
+        case 'register': {
+            let registerPage = new RegisterPage();
+            render('#app', registerPage);
             break;
+        }
         case 'chat':
             root.innerHTML = getChat();
             break;
