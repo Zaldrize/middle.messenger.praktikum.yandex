@@ -1,6 +1,7 @@
 import Block from "../block/block";
 import { InputProps } from "./types";
 import input from './input.hbs'
+import './input.less'
 
 export default class Input extends Block<InputProps> {
     render() {

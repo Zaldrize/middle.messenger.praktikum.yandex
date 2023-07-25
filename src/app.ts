@@ -4,11 +4,11 @@ import Handlebars from "handlebars/runtime";
 Handlebars.registerPartial('chatItemPartial', chatItem);
 import { ServerError, NotFoundError } from "./pages/error/error";
 import GetRegisterPage from "./pages/register/register";
-import getProfile from "./pages/profile/profile";
 import getChat from "./pages/chat/chat";
 import './style.less'
 import LoginPage from "./pages/login";
 import { render } from "./renderDOM";
+import ProfilePage from "./pages/profile/profile";
 
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
@@ -19,9 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const path: string = last(window.location.pathname.split('/')).toLowerCase();
     switch (path)
     {
-        case 'profile':
-            root.innerHTML = getProfile();
+        case 'profile': {
+            let profilePage = new ProfilePage();
+            render('#app', profilePage);
             break;
+            }
         case 'servererror':
             root.innerHTML = ServerError();
             break;
