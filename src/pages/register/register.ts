@@ -33,7 +33,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.secondNameInput = new Input('div', {
-            label: 'Фамилимя',
+            label: 'Фамилия',
             attributes: {
                 type: 'text',
                 name: 'second_name'

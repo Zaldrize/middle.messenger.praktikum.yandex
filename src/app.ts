@@ -2,13 +2,13 @@ import last from "./utils/last";
 import chatItem from './pages/chat/chatItem/chatItem.hbs'
 import Handlebars from "handlebars/runtime";
 Handlebars.registerPartial('chatItemPartial', chatItem);
-import { ServerError, NotFoundError } from "./pages/error/error";
 import getChat from "./pages/chat/chat";
 import './style.less'
 import LoginPage from "./pages/login";
 import { render } from "./renderDOM";
 import ProfilePage from "./pages/profile/profile";
 import RegisterPage from "./pages/register/register";
+import ErrorPage from "./pages/error/error";
 
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
@@ -24,12 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
             render('#app', profilePage);
             break;
             }
-        case 'servererror':
-            root.innerHTML = ServerError();
+        case 'servererror': {
+            let errorPage = new ErrorPage(500, 'Уже исправляем');
+            render('#app', errorPage);
             break;
-        case 'notfound':
-            root.innerHTML = NotFoundError();
+        }
+        case 'notfound':{
+            let errorPage = new ErrorPage(404, 'Страница не найдена');
+            render('#app', errorPage);
             break;
+        }
         case 'login': {
             let loginPage = new LoginPage();
             render('#app', loginPage);
