@@ -9,7 +9,7 @@ export default class ErrorPage extends Block<ErrorPageProps> {
         props.status = status;
         props.text = text;
         props.attributes = {
-            class: 'div_center error_container'
+            class: 'div-center error-container'
         };
         super('div', props);
     }

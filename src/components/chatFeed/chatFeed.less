@@ -1,15 +1,15 @@
-@import '../../consts.less';
+@import url('../../consts.less');
 
 .chats
 {
     width: 150px;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-flow: column nowrap;
     overflow: auto;
-    flex-wrap: nowrap;
 }
-.chatItem 
+
+.chat-item 
 {
     label 
     {
@@ -17,9 +17,11 @@
         text-align: left;
  
     }
+
     flex: 0 1 auto;
 }
-.chatItem:hover
+
+.chat-item:hover
 {
     background-color: @button_color;
     color: #000;

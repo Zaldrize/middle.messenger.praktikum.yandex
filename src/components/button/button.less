@@ -1,4 +1,4 @@
-@import '../../consts.less';
+@import url('../../consts.less');
 
 .button
 {
@@ -7,14 +7,12 @@
     color: @button_font_color;
     font-size: 16px;
     border-radius: 10px;
-    padding-top:15px;
-    padding-bottom: 15px;
-    padding-right:25px;
-    padding-left: 25px;
+    padding:15px 25px;
     font-family: @font_family;
     text-align: center;
     border: none;    
 }
+
 button
 {
     background-color: @button_color;
@@ -29,7 +27,9 @@ button
     height: 40px;
     cursor: pointer;
 }
+
 button[type="submit"]
 {
+    /* stylelint-disable */
     border: 2px solid darken(@button_color, 50%);
 }
