@@ -17,6 +17,7 @@
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "stylelint": "^15.10.2",
+    "stylelint-config-standard": "^34.0.0",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "vite-eslint-plugin": "^1.9.2",
