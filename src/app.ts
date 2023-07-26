@@ -1,7 +1,7 @@
 import last from "./utils/last";
 import './style.less'
 import LoginPage from "./pages/login";
-import { render } from "./renderDOM";
+import { render } from "./utils/renderDOM";
 import ProfilePage from "./pages/profile/profile";
 import RegisterPage from "./pages/register/register";
 import ErrorPage from "./pages/error/error";

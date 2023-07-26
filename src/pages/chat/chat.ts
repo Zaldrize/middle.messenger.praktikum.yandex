@@ -10,7 +10,7 @@ export default class ChatPage extends Block<ChatPageProps> {
         const props = {
             chatFeed: new ChatFeed(),
             history: new MessageHistoryBlock(),
-            sendPic: sendPic,
+            send: sendPic,
             attributes: {
                 class: 'chat'
             }

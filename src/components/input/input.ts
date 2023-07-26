@@ -19,4 +19,22 @@ export default class Input extends Block<InputProps> {
             ?.setAttribute(key, this._attributes[key].toString());
         });
     }
+
+    addEvents(): void {
+        if (this._events) {
+            Object.keys(this._events).forEach(eventName => {
+              this._element.querySelector('input')
+              ?.addEventListener(eventName, this._events[eventName]);
+            });
+          }
+    }
+
+    removeEvents(): void {
+        if (this._events) {
+            Object.keys(this._events).forEach(eventName => {
+              this._element.querySelector('input')
+              ?.removeEventListener(eventName, this._events[eventName]);
+            });
+          }
+    }
 }

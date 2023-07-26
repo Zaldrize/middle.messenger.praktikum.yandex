@@ -1,11 +1,22 @@
 import Block from '../../components/block/block'
 import Button from '../../components/button/button'
 import Input from '../../components/input/input'
+import { EmailValidator } from '../../validators/emailValidator'
+import { LoginValidator } from '../../validators/loginValidator'
+import { NameValidator } from '../../validators/nameValidator'
+import { PhoneValidator } from '../../validators/phoneValidator'
+import { PasswordValidator } from '../../validators/passwordValidator'
+import IValidator from '../../validators/validator'
 import profile from './profile.hbs'
 import './profile.less'
 import { ProfilePageProps } from './types'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
+    _loginValidator = new LoginValidator();
+    _emailValidator = new EmailValidator();
+    _phoneValidator = new PhoneValidator();
+    _nameValidator = new NameValidator();
+    _passwordValidator = new PasswordValidator()
     constructor() {
         const props = new ProfilePageProps();
         props.attributes = {
@@ -16,6 +27,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'text',
                 name: 'email'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._emailValidator);
+                }
             }
         });
         props.loginInput = new Input('div', {
@@ -23,6 +39,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'text',
                 name: 'login'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._loginValidator);
+                }
             }
         });
         props.firstNameInput = new Input('div', {
@@ -30,6 +51,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'text',
                 name: 'first_name'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._nameValidator);
+                }
             }
         });
         props.secondNameInput = new Input('div', {
@@ -37,6 +63,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'text',
                 name: 'second_name'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._nameValidator);
+                }
             }
         });
         props.phoneInput = new Input('div', {
@@ -44,6 +75,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'text',
                 name: 'phone'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._phoneValidator);
+                }
             }
         });
         props.passwordInput = new Input('div', {
@@ -51,6 +87,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             attributes: {
                 type: 'password',
                 name: 'password'
+            },
+            events: {
+                'blur': (e) => {
+                    this.validate(e, this._passwordValidator);
+                }
             }
         });
 
@@ -65,5 +106,18 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
     render() {
         return this.compile(profile);
+    }
+
+    validate(e:FocusEvent, validator: IValidator) {
+        const target = e.target;
+        const t = target as HTMLInputElement;
+        if (!validator.isValid(t.value)) {
+            console.log(validator.getMessage());
+            t.setCustomValidity(validator.getMessage());
+        }
+        else {
+            t.setCustomValidity('');
+        }
+        t.reportValidity();
     }
 }

@@ -1,4 +1,4 @@
-import { EventBus } from "../../utils/eventBus";
+import { EventBus } from "./eventBus";
 import { v4 as makeUUID } from 'uuid';
 import { IBlockEvents, IBlockProps } from "./types";
 
@@ -121,11 +121,11 @@ class Block<T extends IBlockProps> {
 
   _render() {
     const block = this.render();
-    this._removeEvents();
+    this.removeEvents();
     this._element.innerHTML = '';
     this._element.appendChild(block);
     this.addAttributes();
-    this._addEvents();
+    this.addEvents();
   }
 
   // Переопределяется пользователем. Необходимо вернуть разметку
@@ -184,7 +184,7 @@ class Block<T extends IBlockProps> {
       this._element.setAttribute(key, this._attributes[key].toString());
   });
   }
-  _addEvents() {
+  addEvents() {
     if (this._events) {
       Object.keys(this._events).forEach(eventName => {
         this._element.addEventListener(eventName, this._events[eventName]);
@@ -192,7 +192,7 @@ class Block<T extends IBlockProps> {
     }
   }
 
-  _removeEvents() {
+  removeEvents() {
     if (this._events) {
       Object.keys(this._events).forEach(eventName => {
         this._element.removeEventListener(eventName, this._events[eventName]);

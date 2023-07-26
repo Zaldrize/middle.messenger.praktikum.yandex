@@ -16,13 +16,15 @@ export default class LoginPage extends Block<LoginPageProps> {
             attributes: {
                 class: 'auth_login_input',
                 type: 'text'
+            },
+            events: {
+                'blur': ()=> {console.log('login blur');}
             }
         });
         props.inputPassword = new Input('div', {
             label: 'Password',
             attributes: {
-                labelClass: 'auth_password_label',
-                inputClass: 'auth_password_input',
+                class: 'auth_password_input',
                 type: 'password'
             }
         });
