@@ -26,7 +26,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'Email',
             attributes: {
                 type: 'text',
-                name: 'email'
+                name: 'email',
+                value: 'litvinova@mail.ru'
             },
             events: {
                 'blur': (e) => {
@@ -38,7 +39,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'Login',
             attributes: {
                 type: 'text',
-                name: 'login'
+                name: 'login',
+                value: 'zaldrize_azula'
             },
             events: {
                 'blur': (e) => {
@@ -50,7 +52,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'First name',
             attributes: {
                 type: 'text',
-                name: 'first_name'
+                name: 'first_name',
+                value: 'Galina',
             },
             events: {
                 'blur': (e) => {
@@ -62,7 +65,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'Second name',
             attributes: {
                 type: 'text',
-                name: 'second_name'
+                name: 'second_name',
+                value: 'Litvinova'
             },
             events: {
                 'blur': (e) => {
@@ -74,7 +78,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'Phone',
             attributes: {
                 type: 'text',
-                name: 'phone'
+                name: 'phone',
+                value:'+79851309855'
             },
             events: {
                 'blur': (e) => {
@@ -86,7 +91,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             label: 'Password',
             attributes: {
                 type: 'password',
-                name: 'password'
+                name: 'password',
+                value: 'Valar1morghulis'
             },
             events: {
                 'blur': (e) => {
