@@ -32,4 +32,4 @@ export class EventBus {
             listener(...args);
         });
     }
-} 
+}
