@@ -74,11 +74,11 @@ class Block<T extends IBlockProps> {
   }
 
   _componentDidMount() {
-    this.componentDidMount(this._props);
+    this.componentDidMount();
   }
-  // @ts-ignore
+ 
   // eslint-disable-next-line
-  componentDidMount(oldProps: Record<string, any>) { }
+  componentDidMount() { }
 
   dispatchComponentDidMount() {
     this._eventBus.emit(Block.EVENTS.FLOW_CDM);
@@ -91,10 +91,12 @@ class Block<T extends IBlockProps> {
     }
   }
 
-  // @ts-ignore
-  // eslint-disable-next-line
+  // предполагается переопределять в наследнике
   componentDidUpdate(newProps: T): boolean {
-    return true;
+    if (newProps) {
+      return true;
+    }
+    return false;
   }
 
   setProps(nextProps: T) {
