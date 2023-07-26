@@ -95,7 +95,10 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.saveButton = new Button('div', {
-            text: 'Регистрация'
+            text: 'Регистрация',
+            events: {
+                'click': (event: MouseEvent)=>this.submit(event)
+            }
         });
 
         props.cancelButton = new Button('div', {
@@ -107,6 +110,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     render() {
         return this.compile(register);
     }
+
     validate(e:FocusEvent, validator: IValidator) {
         const target = e.target;
         const t = target as HTMLInputElement;
@@ -118,5 +122,15 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             t.setCustomValidity('');
         }
         t.reportValidity();
+    }
+
+    submit(event: MouseEvent) {
+        event.preventDefault();
+        let form = <HTMLFormElement>this._element.querySelector('form');
+        let data = new FormData(form);
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+          }
+        event.stopPropagation();
     }
 }

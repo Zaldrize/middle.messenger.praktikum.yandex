@@ -102,7 +102,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
 
         props.saveButton = new Button('div', {
-            text: 'Сохранить данные'
+            text: 'Сохранить данные',
+            events: {
+                'click': (event: MouseEvent) => this.submit(event)
+            }
         });
 
         props.cancelButton = new Button('div', {
@@ -125,5 +128,14 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             t.setCustomValidity('');
         }
         t.reportValidity();
+    }
+    submit(event: MouseEvent) {
+        event.preventDefault();
+        let form = <HTMLFormElement>this._element.querySelector('form');
+        let data = new FormData(form);
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+          }
+        event.stopPropagation();
     }
 }
