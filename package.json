@@ -16,11 +16,13 @@
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
+    "stylelint": "^15.10.2",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "vite-eslint-plugin": "^1.9.2",
     "vite-plugin-checker": "^0.6.1",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-stylelint": "^4.3.0"
   },
   "dependencies": {
     "@types/uuid": "^9.0.2",
