@@ -2,8 +2,8 @@ import last from "./utils/last";
 import './style.less'
 import LoginPage from "./pages/login";
 import { render } from "./utils/renderDOM";
-import ProfilePage from "./pages/profile/profile";
-import RegisterPage from "./pages/register/register";
+import ProfilePage from "./pages/profile";
+import RegisterPage from "./pages/register";
 import ErrorPage from "./pages/error/error";
 import ChatPage from "./pages/chat/chat";
 
