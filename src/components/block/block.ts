@@ -76,7 +76,7 @@ class Block<T extends IBlockProps> {
   _componentDidMount() {
     this.componentDidMount(this._props);
   }
-
+  // @ts-ignore
   // eslint-disable-next-line
   componentDidMount(oldProps: Record<string, any>) { }
 
@@ -90,6 +90,8 @@ class Block<T extends IBlockProps> {
       this._eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
+
+  // @ts-ignore
   // eslint-disable-next-line
   componentDidUpdate(newProps: T): boolean {
     return true;
