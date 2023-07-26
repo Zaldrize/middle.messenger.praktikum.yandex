@@ -1,14 +1,11 @@
 import last from "./utils/last";
-import chatItem from './pages/chat/chatItem/chatItem.hbs'
-import Handlebars from "handlebars/runtime";
-Handlebars.registerPartial('chatItemPartial', chatItem);
-import getChat from "./pages/chat/chat";
 import './style.less'
 import LoginPage from "./pages/login";
 import { render } from "./renderDOM";
 import ProfilePage from "./pages/profile/profile";
 import RegisterPage from "./pages/register/register";
 import ErrorPage from "./pages/error/error";
+import ChatPage from "./pages/chat/chat";
 
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById("app");
@@ -44,9 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
             render('#app', registerPage);
             break;
         }
-        case 'chat':
-            root.innerHTML = getChat();
+        case 'chat':{
+            let chatPage = new ChatPage();
+            render('#app', chatPage);
             break;
+        }
         default:
             break;
 

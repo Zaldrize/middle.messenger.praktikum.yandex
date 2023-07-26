@@ -1,4 +1,4 @@
 import { IBlockProps } from "../block/types";
 
-export class ChatItemProps implements IBlockProps {
+export class ChatFeedProps implements IBlockProps {
 }
