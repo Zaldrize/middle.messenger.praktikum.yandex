@@ -1,36 +1,14 @@
-    
-        <div class="div_center">
-            <form>
-            <h2>Профиль</h2>
-            <img src="{{userPic}}" class="userPic"></img>
-            <div>
-                <label for="email">Почта</label>
-                <input name="email" type="text" value="{{email}}"/>
-            </div>
-             <div>
-                <label for="login">Логин</label>
-                <input name="login" type="text" value="{{login}}"/>
-            </div>
-            <div>
-                <label for="first_name">Имя</label>
-                <input name="first_name" type="text" value="{{name}}"/>
-            </div>         
-            <div>
-                <label for="second_name">Фамилия</label>
-                <input name="second_name" type="text" value="{{surname}}"/>
-            </div>
-            <div>
-                <label for="phone">Телефон</label>
-                <input name="phone" type="text" value="{{phone}}"/>
-            </div>  
-            <div>
-            <label for="password">Пароль</label>
-                <input name="password" type="password" value="{{password}}"/>
-            </div> 
-            <div>
-                <a class="button">Сохранить данные</a>
-                <a class="button">Назад</a>
-            </div>  
-        
+  <form>
+        <h2>Профиль</h2>
+        <img src="{{userPic}}" class="user-pic"></img>
+        {{{emailInput}}}
+        {{{loginInput}}}
+        {{{firstNameInput}}}
+        {{{secondNameInput}}}
+        {{{phoneInput}}}
+        {{{passwordInput}}}
+        <div>
+            {{{saveButton}}}
+            {{{cancelButton}}}
+        </div>
     </form>
-    </div>
