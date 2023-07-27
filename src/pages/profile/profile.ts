@@ -6,11 +6,11 @@ import { LoginValidator } from '../../validators/loginValidator'
 import { NameValidator } from '../../validators/nameValidator'
 import { PhoneValidator } from '../../validators/phoneValidator'
 import { PasswordValidator } from '../../validators/passwordValidator'
-import IValidator from '../../validators/validator'
 import profile from './profile.hbs'
 import './profile.less'
 import { ProfilePageProps } from './types'
-import { AggregateValidator, userData } from '../../validators/aggregateValidator'
+import {ProfileValidator, userData, validate } from '../../validators/aggregateValidator'
+import { NotEmptyValidator } from '../../validators/notEmptyValidator'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -18,6 +18,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     _phoneValidator = new PhoneValidator();
     _nameValidator = new NameValidator();
     _passwordValidator = new PasswordValidator()
+    _notEmptyValidator = new NotEmptyValidator();
     constructor() {
         const props = new ProfilePageProps();
         props.attributes = {
@@ -32,7 +33,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._emailValidator);
+                    validate(e, this._emailValidator);
                 }
             }
         });
@@ -45,7 +46,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._loginValidator);
+                    validate(e, this._loginValidator);
                 }
             }
         });
@@ -58,7 +59,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._nameValidator);
+                    validate(e, this._nameValidator);
                 }
             }
         });
@@ -71,7 +72,20 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._nameValidator);
+                    validate(e, this._nameValidator);
+                }
+            }
+        });
+        props.displayNameInput = new Input('div', {
+            label: 'Display name',
+            attributes: {
+                type: 'text',
+                name: 'display_name',
+                value: 'Galina Litvinova'
+            },
+            events: {
+                'blur': (e) => {
+                    validate(e, this._notEmptyValidator);
                 }
             }
         });
@@ -84,7 +98,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._phoneValidator);
+                    validate(e, this._phoneValidator);
                 }
             }
         });
@@ -97,7 +111,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._passwordValidator);
+                    validate(e, this._passwordValidator);
                 }
             }
         });
@@ -117,22 +131,9 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     render() {
         return this.compile(profile);
     }
-
-    validate(e:FocusEvent, validator: IValidator) {
-        const target = e.target;
-        const t = target as HTMLInputElement;
-        if (!validator.isValid(t.value)) {
-            console.log(validator.getMessage());
-            t.setCustomValidity(validator.getMessage());
-        }
-        else {
-            t.setCustomValidity('');
-        }
-        t.reportValidity();
-    }
     submit(event: MouseEvent) {
         event.preventDefault();
-        const validator = new AggregateValidator();
+        const validator = new ProfileValidator();
         let form = <HTMLFormElement>this._element.querySelector('form');
         let formData = new FormData(form);
         let data: Record<string, string> = {};

@@ -1,13 +1,12 @@
 import Block from '../../components/block/block';
 import Button from '../../components/button';
 import Input from '../../components/input';
-import { AggregateValidator, userData } from '../../validators/aggregateValidator';
+import { RegisterValidator, userData, validate } from '../../validators/aggregateValidator';
 import { EmailValidator } from '../../validators/emailValidator';
 import { LoginValidator } from '../../validators/loginValidator';
 import { NameValidator } from '../../validators/nameValidator';
 import { PasswordValidator } from '../../validators/passwordValidator';
 import { PhoneValidator } from '../../validators/phoneValidator';
-import IValidator from '../../validators/validator';
 import register from './register.hbs';
 import './register.less';
 import { RegisterPageProps } from './types';
@@ -21,7 +20,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     constructor() {
         const props = new RegisterPageProps();
         props.attributes = {
-            class: 'div_center'
+            class: 'div-center'
         }
         props.emailInput = new Input('div', {
             label: 'Email',
@@ -31,7 +30,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._emailValidator);
+                    validate(e, this._emailValidator);
                 }
             }
         });
@@ -43,7 +42,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._loginValidator);
+                    validate(e, this._loginValidator);
                 }
             }
         });
@@ -55,7 +54,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._nameValidator);
+                    validate(e, this._nameValidator);
                 }
             }
         });
@@ -67,7 +66,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._nameValidator);
+                    validate(e, this._nameValidator);
                 }
             }
         });
@@ -79,7 +78,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._phoneValidator);
+                    validate(e, this._phoneValidator);
                 }
             }
         });
@@ -91,7 +90,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             },
             events: {
                 'blur': (e) => {
-                    this.validate(e, this._passwordValidator);
+                    validate(e, this._passwordValidator);
                 }
             }
         });
@@ -112,24 +111,11 @@ export default class RegisterPage extends Block<RegisterPageProps> {
         return this.compile(register);
     }
 
-    validate(e:FocusEvent, validator: IValidator) {
-        const target = e.target;
-        const t = target as HTMLInputElement;
-        if (!validator.isValid(t.value)) {
-            console.log(validator.getMessage());
-            t.setCustomValidity(validator.getMessage());
-        }
-        else {
-            t.setCustomValidity('');
-        }
-        t.reportValidity();
-    }
-
     submit(event: MouseEvent) {
         event.preventDefault();
         let form = <HTMLFormElement>this._element.querySelector('form');
         let formData = new FormData(form);
-        const validator = new AggregateValidator();
+        const validator = new RegisterValidator();
         let data: Record<string, string> = {};
         for (var pair of formData.entries()) {
             data[pair[0]] = pair[1].toString();

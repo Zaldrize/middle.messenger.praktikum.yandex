@@ -6,7 +6,7 @@ import Block from '../../components/block/block';
 import ChatFeed from '../../components/chatFeed/chatFeed';
 import MessageHistoryBlock from '../../components/messageHistory/messageHistory';
 import Button from '../../components/button/button';
-import { MessageValidator } from '../../validators/messageValidator';
+import { NotEmptyValidator } from '../../validators/notEmptyValidator';
 export default class ChatPage extends Block<ChatPageProps> {
     constructor() {
         const props = {
@@ -27,7 +27,7 @@ export default class ChatPage extends Block<ChatPageProps> {
     }
     sendMessage(e: MouseEvent) {
         const text = this._element.querySelector('textarea');
-        const validator = new MessageValidator();
+        const validator = new NotEmptyValidator();
         if (validator.isValid(text?.value || '')){
             text?.setCustomValidity('');
             console.log(text?.value);
