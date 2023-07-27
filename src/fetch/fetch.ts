@@ -18,21 +18,23 @@ type Options = {
     method: METHOD
 }
 
+type HTTPMethod = (url: string, options: Options) => Promise<unknown>
+
 export class HTTPTransport {
-    get = (url: string, options: Options) => {
+    get: HTTPMethod = (url, options) => {
 
         return this.request(url, { ...options, method: METHOD.GET }, options.timeout);
     };
 
-    post = (url: string, options: Options) => {
+    post: HTTPMethod = (url, options) => {
         return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
     };
 
-    put = (url: string, options: Options) => {
+    put: HTTPMethod = (url, options) => {
         return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
     };
 
-    delete = (url: string, options: Options) => {
+    delete: HTTPMethod = (url, options) => {
         return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
     };
 
