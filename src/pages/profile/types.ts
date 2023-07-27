@@ -3,6 +3,7 @@ import Button from "../../components/button/button";
 import Input from "../../components/input";
 
 export class ProfilePageProps implements IBlockProps {
+    userPic: string;
     emailInput: Input;
     loginInput: Input;
     firstNameInput: Input;

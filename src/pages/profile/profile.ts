@@ -10,6 +10,7 @@ import IValidator from '../../validators/validator'
 import profile from './profile.hbs'
 import './profile.less'
 import { ProfilePageProps } from './types'
+import { AggregateValidator, userData } from '../../validators/aggregateValidator'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -131,11 +132,20 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
     submit(event: MouseEvent) {
         event.preventDefault();
+        const validator = new AggregateValidator();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let data = new FormData(form);
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
+        let formData = new FormData(form);
+        let data: Record<string, string> = {};
+        for (var pair of formData.entries()) {
+            data[pair[0]] = pair[1].toString();
           }
+        const userData = data as userData;
+        if (validator.isValid(userData)) {
+            console.log(data);
+        }
+        else {
+            alert(validator.getMessage());
+        }
         event.stopPropagation();
     }
 }

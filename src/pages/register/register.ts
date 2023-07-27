@@ -1,6 +1,7 @@
 import Block from '../../components/block/block';
 import Button from '../../components/button';
 import Input from '../../components/input';
+import { AggregateValidator, userData } from '../../validators/aggregateValidator';
 import { EmailValidator } from '../../validators/emailValidator';
 import { LoginValidator } from '../../validators/loginValidator';
 import { NameValidator } from '../../validators/nameValidator';
@@ -127,10 +128,19 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     submit(event: MouseEvent) {
         event.preventDefault();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let data = new FormData(form);
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
+        let formData = new FormData(form);
+        const validator = new AggregateValidator();
+        let data: Record<string, string> = {};
+        for (var pair of formData.entries()) {
+            data[pair[0]] = pair[1].toString();
           }
+        const userData = data as userData;
+        if (validator.isValid(userData)) {
+            console.log(data);
+        }
+        else {
+            alert(validator.getMessage());
+        }
         event.stopPropagation();
     }
 }
