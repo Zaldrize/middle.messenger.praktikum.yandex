@@ -8,6 +8,7 @@ export class ProfilePageProps implements IBlockProps {
     loginInput: Input;
     firstNameInput: Input;
     secondNameInput: Input;
+    displayNameInput: Input;
     phoneInput: Input;
     passwordInput: Input;
     saveButton: Button;

@@ -1,8 +1,8 @@
 import IValidator from "./validator";
 
-export class MessageValidator implements IValidator {
+export class NotEmptyValidator implements IValidator {
     isValid(message: string):boolean {
-       const regExp =  /^\w{1,}$/;
+       const regExp =  /^\w{1,}/;
        return regExp.test(message);
    }
 
