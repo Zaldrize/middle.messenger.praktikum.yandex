@@ -203,6 +203,17 @@ class Block<T extends IBlockProps> {
       });
     }
   }
+
+  private _isActive: boolean;
+  show() {
+    this._isActive = true;
+    this._element.style.display = 'block';
+    console.log(this._isActive);
+  }
+  hide() {
+    this._isActive = true;
+    this._element.style.display = 'none';
+  }
 }
 
 export default Block; 
