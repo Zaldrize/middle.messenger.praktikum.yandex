@@ -1,25 +1,28 @@
-@import 'consts';
+@import url('consts');
+
 #app
 {
     display: flex;
     height: 100%;
 }
+
 body, html, main
 {
     height: 100%;
 }
+
 body
 {
     background-color: @background_color;
 }
 
-.div_center
+.div-center
 {
     width: 26%;
     margin: auto;
 }
 
-.div_center h2
+.div-center h2
 {
     text-align: center;
 }
@@ -31,50 +34,4 @@ label
     text-align: right;
     margin-top: 10px;
     font-family: @font_family;
-}
-input, textarea
-{
-    background-color: @input_color;
-    margin-top: 10px;
-    margin-bottom: 5px;  
-    border-radius: 10px;
-    padding-left: 10px;
-    min-height: 26px;
-}
-input[type="password"]
-{
-    width: 170px;
-}
-
-.button
-{
-    appearance: button;
-    background-color: @button_color;
-    color: @button_font_color;
-    font-size: 16px;
-    border-radius: 10px;
-    padding-top:15px;
-    padding-bottom: 15px;
-    padding-right:25px;
-    padding-left: 25px;
-    font-family: @font_family;
-    text-align: center;
-    border: none;    
-}
-button
-{
-    background-color: @button_color;
-    color: @button_font_color;
-    font-size: 16px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    font-family: @font_family;
-    text-align: center;
-    border: none;    
-    height: 40px;
-}
-button[type="submit"]
-{
-    border: 2px solid darken(@button_color, 50%);
 }
