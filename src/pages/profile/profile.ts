@@ -11,6 +11,7 @@ import './profile.less'
 import { ProfilePageProps } from './types'
 import {ProfileValidator, userData, validate } from '../../validators/aggregateValidator'
 import { NotEmptyValidator } from '../../validators/notEmptyValidator'
+import { LoginApi } from '../../api/login-api'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -126,6 +127,13 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         props.cancelButton = new Button('div', {
             text: 'Назад'
         });
+
+        props.logOutButton = new Button('div', {
+            text: 'Выйти',
+            events: {
+                'click': (event: MouseEvent) => this.exit(event)
+            }
+        })
         super('div', props);
     }
     render() {
@@ -148,5 +156,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             alert(validator.getMessage());
         }
         event.stopPropagation();
+    }
+    exit(event: MouseEvent) {
+        event.preventDefault();
+        const loginApi = new LoginApi();
+        loginApi.logout().then(()=>console.log('успех'), ()=> console.log('провал'));
     }
 }

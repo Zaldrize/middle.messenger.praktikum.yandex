@@ -13,6 +13,7 @@ export class ProfilePageProps implements IBlockProps {
     passwordInput: Input;
     saveButton: Button;
     cancelButton: Button;
+    logOutButton: Button;
     events?: IBlockEvents | {};    
     attributes?: Record<string, string|number|boolean>;
 }

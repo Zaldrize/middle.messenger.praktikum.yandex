@@ -10,6 +10,7 @@ import { PhoneValidator } from '../../validators/phoneValidator';
 import register from './register.hbs';
 import './register.less';
 import { RegisterPageProps } from './types';
+import { LoginApi } from '../../api/login-api';
 
 export default class RegisterPage extends Block<RegisterPageProps> {
     _loginValidator = new LoginValidator();
@@ -17,6 +18,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     _phoneValidator = new PhoneValidator();
     _nameValidator = new NameValidator();
     _passwordValidator = new PasswordValidator()
+    _loginApi = new LoginApi();
     constructor() {
         const props = new RegisterPageProps();
         props.attributes = {
@@ -123,6 +125,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
         const userData = data as userData;
         if (validator.isValid(userData)) {
             console.log(data);
+            this._loginApi.create(userData)
+            .then(x=>console.log(x.id), x=>console.log(x.reason));
         }
         else {
             alert(validator.getMessage());

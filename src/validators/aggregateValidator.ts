@@ -45,6 +45,7 @@ export class ProfileValidator extends RegisterValidator {
 }
 
 export function validate(e:FocusEvent, validator: IValidator) {
+    e.preventDefault();
     const target = e.target;
     const t = target as HTMLInputElement;
     if (!validator.isValid(t.value)) {
@@ -55,4 +56,5 @@ export function validate(e:FocusEvent, validator: IValidator) {
         t.setCustomValidity('');
     }
     t.reportValidity();
+    
 }
