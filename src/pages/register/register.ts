@@ -25,7 +25,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             class: 'div-center'
         }
         props.emailInput = new Input('div', {
-            label: 'Email',
+            label: 'Email',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'email'
@@ -37,7 +38,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.loginInput = new Input('div', {
-            label: 'Login',
+            label: 'Login',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'login'
@@ -49,7 +51,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.firstNameInput = new Input('div', {
-            label: 'First name',
+            label: 'First name',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'first_name'
@@ -61,7 +64,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.secondNameInput = new Input('div', {
-            label: 'Second name',
+            label: 'Second name',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'second_name'
@@ -73,7 +77,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.phoneInput = new Input('div', {
-            label: 'Phone',
+            label: 'Phone',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'phone'
@@ -85,7 +90,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.passwordInput = new Input('div', {
-            label: 'Password',
+            label: 'Password',            
+            value: '',
             attributes: {
                 type: 'password',
                 name: 'password'

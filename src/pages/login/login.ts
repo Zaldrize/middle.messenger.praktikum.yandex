@@ -16,6 +16,7 @@ export default class LoginPage extends Block<LoginPageProps> {
         };
         props.inputLogin = new Input('div', {
             label: 'Login',
+            value: '',
             attributes: {
                 class: 'auth_login_input',
                 type: 'text',
@@ -24,6 +25,7 @@ export default class LoginPage extends Block<LoginPageProps> {
         });
         props.inputPassword = new Input('div', {
             label: 'Password',
+            value: '',
             attributes: {
                 class: 'auth_password_input',
                 type: 'password',

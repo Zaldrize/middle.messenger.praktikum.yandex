@@ -5,4 +5,5 @@ export class InputProps implements IBlockProps {
     attributes: {
     };
     label: string;
+    value: string;
 }

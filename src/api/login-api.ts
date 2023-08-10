@@ -24,6 +24,14 @@ export class LoginApi extends BaseAPI {
         });
     }
 
+    get() {
+        return loginApiInstance.post(`${baseUrl}/auth/user`, {
+            data: {},
+            timeout: 200,
+            headers: {}
+        });
+    }
+
     logout() {
         return loginApiInstance.post(`${baseUrl}/auth/logout`,
          {data: {}, headers: {}, timeout: 300} as Options);

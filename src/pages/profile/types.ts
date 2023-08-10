@@ -1,3 +1,4 @@
+import { userInfo } from "../../api/user-api";
 import { IBlockEvents, IBlockProps } from "../../components/block/types";
 import Button from "../../components/button/button";
 import Input from "../../components/input";
@@ -14,6 +15,7 @@ export class ProfilePageProps implements IBlockProps {
     saveButton: Button;
     cancelButton: Button;
     logOutButton: Button;
+    userData: userInfo;
     events?: IBlockEvents | {};    
     attributes?: Record<string, string|number|boolean>;
 }

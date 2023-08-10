@@ -12,6 +12,9 @@ import { ProfilePageProps } from './types'
 import {ProfileValidator, userData, validate } from '../../validators/aggregateValidator'
 import { NotEmptyValidator } from '../../validators/notEmptyValidator'
 import { LoginApi } from '../../api/login-api'
+import isEqual from '../../utils/isEqual'
+import UserController from './userController'
+import store, { StoreEvents } from '../../modules/store'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -22,15 +25,18 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     _notEmptyValidator = new NotEmptyValidator();
     constructor() {
         const props = new ProfilePageProps();
+        const controlller = new UserController();
+        controlller.getUser();
+        store.on(StoreEvents.Updated, () => console.log(store.getState()));
         props.attributes = {
             class: 'div-center'
         }
         props.emailInput = new Input('div', {
             label: 'Email',
+            value: 'litvinova@mail.ru',
             attributes: {
                 type: 'text',
                 name: 'email',
-                value: 'litvinova@mail.ru'
             },
             events: {
                 'blur': (e) => {
@@ -40,10 +46,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.loginInput = new Input('div', {
             label: 'Login',
+            value: 'zaldrize_azula',
             attributes: {
                 type: 'text',
                 name: 'login',
-                value: 'zaldrize_azula'
             },
             events: {
                 'blur': (e) => {
@@ -53,10 +59,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.firstNameInput = new Input('div', {
             label: 'First name',
+            value: 'Galina',
             attributes: {
                 type: 'text',
                 name: 'first_name',
-                value: 'Galina',
             },
             events: {
                 'blur': (e) => {
@@ -66,10 +72,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.secondNameInput = new Input('div', {
             label: 'Second name',
+            value: 'Litvinova',
             attributes: {
                 type: 'text',
                 name: 'second_name',
-                value: 'Litvinova'
             },
             events: {
                 'blur': (e) => {
@@ -79,10 +85,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.displayNameInput = new Input('div', {
             label: 'Display name',
+            value: 'Galina Litvinova',
             attributes: {
                 type: 'text',
                 name: 'display_name',
-                value: 'Galina Litvinova'
             },
             events: {
                 'blur': (e) => {
@@ -92,10 +98,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.phoneInput = new Input('div', {
             label: 'Phone',
+            value:'+79851309855',
             attributes: {
                 type: 'text',
                 name: 'phone',
-                value:'+79851309855'
             },
             events: {
                 'blur': (e) => {
@@ -105,10 +111,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.passwordInput = new Input('div', {
             label: 'Password',
+            value: 'Valar1morghulis',
             attributes: {
                 type: 'password',
                 name: 'password',
-                value: 'Valar1morghulis'
             },
             events: {
                 'blur': (e) => {
@@ -138,6 +144,9 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
     render() {
         return this.compile(profile);
+    }
+    componentDidUpdate(newProps: ProfilePageProps): boolean {
+        return isEqual(this._props.userData, newProps.userData);
     }
     submit(event: MouseEvent) {
         event.preventDefault();
