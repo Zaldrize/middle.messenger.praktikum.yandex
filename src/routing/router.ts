@@ -20,7 +20,9 @@ export class Router {
 
         Router.__instance = this;
     }
-
+    static getInstance(): Router{
+        return this.__instance;
+    }
     use(pathname: string, block: new() =>Block<any>) {
         const route = new Route(pathname, block, {rootQuery: this._rootQuery});
 

@@ -15,6 +15,7 @@ import { LoginApi } from '../../api/login-api'
 import isEqual from '../../utils/isEqual'
 import UserController from './userController'
 import store, { StoreEvents } from '../../modules/store'
+import { Router } from '../../routing/router'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -25,15 +26,25 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     _notEmptyValidator = new NotEmptyValidator();
     constructor() {
         const props = new ProfilePageProps();
+        props.userData = {
+            first_name: '',
+            second_name: '',
+            login: '',
+            id: 0,
+            avatar: '',
+            display_name: '',
+            email: '',
+            phone: ''
+        };
         const controlller = new UserController();
         controlller.getUser();
-        store.on(StoreEvents.Updated, () => console.log(store.getState()));
+        store.on(StoreEvents.Updated, () => this.updateUserData());
         props.attributes = {
             class: 'div-center'
         }
         props.emailInput = new Input('div', {
             label: 'Email',
-            value: 'litvinova@mail.ru',
+            value: props.userData.email,
             attributes: {
                 type: 'text',
                 name: 'email',
@@ -46,7 +57,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.loginInput = new Input('div', {
             label: 'Login',
-            value: 'zaldrize_azula',
+            value: props.userData.login,
             attributes: {
                 type: 'text',
                 name: 'login',
@@ -59,7 +70,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.firstNameInput = new Input('div', {
             label: 'First name',
-            value: 'Galina',
+            value: props.userData.first_name,
             attributes: {
                 type: 'text',
                 name: 'first_name',
@@ -72,7 +83,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.secondNameInput = new Input('div', {
             label: 'Second name',
-            value: 'Litvinova',
+            value: props.userData.second_name,
             attributes: {
                 type: 'text',
                 name: 'second_name',
@@ -85,7 +96,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.displayNameInput = new Input('div', {
             label: 'Display name',
-            value: 'Galina Litvinova',
+            value: props.userData.display_name,
             attributes: {
                 type: 'text',
                 name: 'display_name',
@@ -98,7 +109,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.phoneInput = new Input('div', {
             label: 'Phone',
-            value:'+79851309855',
+            value: props.userData.phone,
             attributes: {
                 type: 'text',
                 name: 'phone',
@@ -111,7 +122,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
         props.passwordInput = new Input('div', {
             label: 'Password',
-            value: 'Valar1morghulis',
+            value: 'password',
             attributes: {
                 type: 'password',
                 name: 'password',
@@ -146,7 +157,11 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         return this.compile(profile);
     }
     componentDidUpdate(newProps: ProfilePageProps): boolean {
-        return isEqual(this._props.userData, newProps.userData);
+        return !isEqual(this._props.userData, newProps.userData);
+    }
+    cancel(event: MouseEvent) {
+        event.preventDefault();
+        Router.getInstance().back();
     }
     submit(event: MouseEvent) {
         event.preventDefault();
@@ -169,6 +184,21 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     exit(event: MouseEvent) {
         event.preventDefault();
         const loginApi = new LoginApi();
-        loginApi.logout().then(()=>console.log('успех'), ()=> console.log('провал'));
+        loginApi.logout().then(()=>{
+            Router.getInstance().go('/');
+        });
+    }
+
+    updateUserData() {
+        let userData = JSON.parse(store.getState()['user']);
+        //this.setProps({userData: userData} as ProfilePageProps);
+
+        this._children.loginInput.setProps({value: userData.login});
+        this._children.emailInput.setProps({value: userData.email});
+        this._children.phoneInput.setProps({value: userData.phone});
+        this._children.displayNameInput.setProps({value: userData.display_name});
+        this._children.firstNameInput.setProps({value: userData.first_name});
+        this._children.secondNameInput.setProps({value: userData.second_name});
+
     }
 }
