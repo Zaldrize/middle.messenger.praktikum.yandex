@@ -5,7 +5,7 @@ export default class UserController {
     private _userApi = new UserApi();
     public getUser(): void {
         this._userApi.get().then(
-            (x: userInfo)=> store.set('user', x)
+            (x: XMLHttpRequest)=> store.set('user', <userInfo>x.response)
         );
     }
 }

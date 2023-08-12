@@ -13,15 +13,22 @@ export type userInfo = {
     email: string
   };
 
-  const loginApiInstance = new HTTPTransport<userInfo>();
+  const userApiInstance = new HTTPTransport();
 
 
   export class UserApi extends BaseAPI {
     get() {
-        return loginApiInstance.get(`${baseUrl}/auth/user`, {
+        return userApiInstance.get(`${baseUrl}/auth/user`, {
             data: {},
             timeout: 200,
             headers: {}
         });
+    }
+    search(input: string) {
+        return userApiInstance.post(`${baseUrl}/user/search`, {
+            data: {login: input},
+            timeout: 200,
+            headers: {}
+        })
     }
 }

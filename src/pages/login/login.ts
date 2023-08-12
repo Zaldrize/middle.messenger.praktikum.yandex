@@ -61,6 +61,8 @@ export default class LoginPage extends Block<LoginPageProps> {
             data[pair[0]] = pair[1].toString();
           }
         let loginApi = new LoginApi();
-        loginApi.login(data).then(()=>console.log('ok'));
+        loginApi.login(data).then(()=>
+        Router.getInstance().go('/messenger')
+        );
     }
 }

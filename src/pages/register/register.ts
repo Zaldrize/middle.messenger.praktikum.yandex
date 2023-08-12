@@ -132,7 +132,9 @@ export default class RegisterPage extends Block<RegisterPageProps> {
         if (validator.isValid(userData)) {
             console.log(data);
             this._loginApi.create(userData)
-            .then(x=>console.log(x.id), x=>console.log(x.reason));
+            .then((x: XMLHttpRequest)=>
+            console.log((<{id: Number}>x.response).id),
+            x=>console.log(x.response));
         }
         else {
             alert(validator.getMessage());

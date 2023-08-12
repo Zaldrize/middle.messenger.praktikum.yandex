@@ -18,30 +18,30 @@ export type Options = {
     data: any
 }
 
-type HTTPMethod<T> = (url: string, options: Options) => Promise<T>
+type HTTPMethod = (url: string, options: Options) => Promise<XMLHttpRequest>
 
-export class HTTPTransport<T> {
-    get: HTTPMethod<T> = (url, options) => {
+export class HTTPTransport {
+    get: HTTPMethod = (url, options) => {
 
         return this.request(url, METHOD.GET, options, options.timeout);
     };
 
-    post: HTTPMethod<T> = (url, options) => {
+    post: HTTPMethod = (url, options) => {
         return this.request(url, METHOD.POST, options, options.timeout);
     };
 
-    put: HTTPMethod<T> = (url, options) => {
+    put: HTTPMethod = (url, options) => {
         return this.request(url,METHOD.PUT, options, options.timeout);
     };
 
-    delete: HTTPMethod<T> = (url, options) => {
+    delete: HTTPMethod = (url, options) => {
         return this.request(url, METHOD.DELETE, options, options.timeout);
     };
 
     request = (url: string, method: METHOD, options: Options, timeout: number = 5000) => {
         const { headers, data } = options;
 
-        return new Promise<T>(function (resolve, reject) {
+        return new Promise<XMLHttpRequest>(function (resolve, reject) {
             if (!method) {
                 reject('No method');
                 return;
@@ -62,7 +62,7 @@ export class HTTPTransport<T> {
             });
 
             xhr.onload = function () {
-                resolve(xhr.response);
+                resolve(xhr);
             };
 
             xhr.onabort = reject;

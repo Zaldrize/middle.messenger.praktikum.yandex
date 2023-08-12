@@ -1,0 +1,10 @@
+<input list="userList">
+<datalist id="userList">
+    {{#each users}}
+    <option>
+        <p>{{display_name}}</p>
+        <span>|</span>
+        <p>{{login}}</p>
+    </option>
+{{/each}}
+</datalist>

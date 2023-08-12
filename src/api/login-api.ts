@@ -1,10 +1,7 @@
 import { HTTPTransport, Options } from "../fetch/fetch";
 import { BaseAPI, baseUrl } from "./base-api";
-type Response = {
-    id: number,
-    reason: string
-};
-const loginApiInstance = new HTTPTransport<Response>();
+
+const loginApiInstance = new HTTPTransport();
 
 export class LoginApi extends BaseAPI {
     create(args: object) {
