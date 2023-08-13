@@ -9,13 +9,14 @@ import { PasswordValidator } from '../../validators/passwordValidator'
 import profile from './profile.hbs'
 import './profile.less'
 import { ProfilePageProps } from './types'
-import {ProfileValidator, userData, validate } from '../../validators/aggregateValidator'
+import {ProfileValidator, validate } from '../../validators/aggregateValidator'
 import { NotEmptyValidator } from '../../validators/notEmptyValidator'
 import { LoginApi } from '../../api/login-api'
 import isEqual from '../../utils/isEqual'
 import UserController from './userController'
 import store, { StoreEvents } from '../../modules/store'
 import { Router } from '../../routing/router'
+import { fullUserInfo } from '../../models/user'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -40,8 +41,16 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         controlller.getUser();
         store.on(StoreEvents.Updated, () => this.updateUserData());
         props.attributes = {
-            class: 'div-center'
+            class: 'profile-container'
         }
+
+        props.avatarInput = new Input('div', {
+            label:'',
+            value: '',
+            attributes: {
+                type: 'file'
+            }
+        });
         props.emailInput = new Input('div', {
             label: 'Email',
             value: props.userData.email,
@@ -142,7 +151,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         });
 
         props.cancelButton = new Button('div', {
-            text: 'Назад'
+            text: 'Назад',
+            events: {
+                'click': () => Router.getInstance().back()
+            }
         });
 
         props.logOutButton = new Button('div', {
@@ -172,7 +184,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         for (var pair of formData.entries()) {
             data[pair[0]] = pair[1].toString();
           }
-        const userData = data as userData;
+        const userData = data as unknown as fullUserInfo;
         if (validator.isValid(userData)) {
             console.log(data);
         }

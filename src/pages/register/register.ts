@@ -1,7 +1,7 @@
 import Block from '../../components/block/block';
 import Button from '../../components/button';
 import Input from '../../components/input';
-import { RegisterValidator, userData, validate } from '../../validators/aggregateValidator';
+import { RegisterValidator, validate } from '../../validators/aggregateValidator';
 import { EmailValidator } from '../../validators/emailValidator';
 import { LoginValidator } from '../../validators/loginValidator';
 import { NameValidator } from '../../validators/nameValidator';
@@ -11,6 +11,7 @@ import register from './register.hbs';
 import './register.less';
 import { RegisterPageProps } from './types';
 import { LoginApi } from '../../api/login-api';
+import { fullUserInfo } from '../../models/user';
 
 export default class RegisterPage extends Block<RegisterPageProps> {
     _loginValidator = new LoginValidator();
@@ -128,7 +129,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
         for (var pair of formData.entries()) {
             data[pair[0]] = pair[1].toString();
           }
-        const userData = data as userData;
+        const userData = data as unknown as fullUserInfo;
         if (validator.isValid(userData)) {
             console.log(data);
             this._loginApi.create(userData)

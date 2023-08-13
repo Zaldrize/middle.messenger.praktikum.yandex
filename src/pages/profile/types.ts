@@ -1,10 +1,11 @@
-import { userInfo } from "../../api/user-api";
 import { IBlockEvents, IBlockProps } from "../../components/block/types";
 import Button from "../../components/button/button";
 import Input from "../../components/input";
+import { userInfo } from "../../models/user";
 
 export class ProfilePageProps implements IBlockProps {
     userPic: string;
+    avatarInput: Input;
     emailInput: Input;
     loginInput: Input;
     firstNameInput: Input;

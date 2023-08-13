@@ -1,4 +1,4 @@
-import { userInfo } from "../../api/user-api";
+import { userInfo } from "../../models/user";
 import { IBlockEvents, IBlockProps } from "../block/types";
 
 export class ChatSearchProps implements IBlockProps {

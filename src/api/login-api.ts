@@ -1,4 +1,4 @@
-import { HTTPTransport, Options } from "../fetch/fetch";
+import { HTTPTransport, Options } from "../modules/fetch";
 import { BaseAPI, baseUrl } from "./base-api";
 
 const loginApiInstance = new HTTPTransport();

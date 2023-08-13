@@ -1,5 +1,6 @@
 import store from "../../modules/store";
-import { UserApi, userInfo } from "../../api/user-api";
+import { UserApi } from "../../api/user-api";
+import { userInfo } from "../../models/user";
 
 export default class UserController {
     private _userApi = new UserApi();
