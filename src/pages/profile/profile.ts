@@ -21,6 +21,7 @@ import defaultUserPic from '../../../static/defaultUserPic.svg'
 import ChangePasswordDialog from '../../components/dialogs/changePasswordDialog'
 import GetModelFromFormData from '../../utils/getModelFromFormData'
 import LoginController from '../../controllers/loginController'
+import ChangeAvatarDialog from '../../components/dialogs/changeAvatarDialog/changeAvatarDialog'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -54,8 +55,14 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             src: defaultUserPic,
             attributes: {
                 class: 'user-pic'
+            },
+            events: {
+                'click': (e:MouseEvent) => this.openChangeAvatarDialog(e)
             }
         });
+
+        props.changeAvatarDialog = new ChangeAvatarDialog();
+
         props.emailInput = new Input('div', {
             label: 'Email',
             value: props.userData.email,
@@ -166,6 +173,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         super('div', props);
         this._controller = new UserController();
         this._controller.getUser();
+    }
+    openChangeAvatarDialog(e: MouseEvent): void {
+       e.preventDefault();
+       this._children.changeAvatarDialog.show();
     }
     changePassword(event: MouseEvent) {
         event.preventDefault();

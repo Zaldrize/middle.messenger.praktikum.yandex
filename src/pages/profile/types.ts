@@ -4,10 +4,12 @@ import Input from "../../components/input";
 import { userInfo } from "../../models/user";
 import Image from "../../components/img/img";
 import ChangePasswordDialog from "../../components/dialogs/changePasswordDialog";
+import ChangeAvatarDialog from "../../components/dialogs/changeAvatarDialog/changeAvatarDialog";
 
 export class ProfilePageProps implements IBlockProps {
     userPic: string;
     avatar: Image;
+    changeAvatarDialog: ChangeAvatarDialog;
     emailInput: Input;
     loginInput: Input;
     firstNameInput: Input;
