@@ -11,7 +11,6 @@ import './profile.less'
 import { ProfilePageProps } from './types'
 import {ProfileValidator, validate } from '../../validators/aggregateValidator'
 import { NotEmptyValidator } from '../../validators/notEmptyValidator'
-import { LoginApi } from '../../api/login-api'
 import isEqual from '../../utils/isEqual'
 import UserController from '../../controllers/userController'
 import store, { StoreEvents } from '../../modules/store'
@@ -21,6 +20,7 @@ import Image from '../../components/img/img'
 import defaultUserPic from '../../../static/defaultUserPic.svg'
 import ChangePasswordDialog from '../../components/dialogs/changePasswordDialog'
 import GetModelFromFormData from '../../utils/getModelFromFormData'
+import LoginController from '../../controllers/loginController'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -30,6 +30,8 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     _passwordValidator = new PasswordValidator()
     _notEmptyValidator = new NotEmptyValidator();
     _controller: UserController;
+    _loginController = new LoginController();
+
     constructor() {
         const props = new ProfilePageProps();
         props.userData = {
@@ -166,6 +168,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
     changePassword(event: MouseEvent) {
         event.preventDefault();
+        this._children.changePasswordDialog.setProps({
+            newPassword:'',
+            oldPassword:''
+        });
         this._children.changePasswordDialog.show();
     }
     render() {
@@ -194,10 +200,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
     exit(event: MouseEvent) {
         event.preventDefault();
-        const loginApi = new LoginApi();
-        loginApi.logout().then(()=>{
-            Router.getInstance().go('/');
-        });
+        this._loginController.logout();
     }
 
     updateUserData() {

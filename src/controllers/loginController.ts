@@ -13,7 +13,11 @@ export default class LoginController {
                 }
                 return false;
             },
-        );
+        )
+        .catch((reason: any) => {
+            console.log(reason);
+            return false;
+        });
     }
 
     public createUser(request: fullUserInfo): Promise<boolean> {
@@ -27,5 +31,18 @@ export default class LoginController {
                     }
                     return false;
                 });
+    }
+    
+    public logout(): void {
+        this._loginApi.logout().then(
+            (x:XMLHttpRequest) => {
+                if (x.status === 200) {
+                    console.log('logout succeeded');
+                }
+            },
+            (reason: any) => {
+                console.log(reason);
+            }
+        )
     }
 }

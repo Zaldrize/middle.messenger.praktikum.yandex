@@ -3,8 +3,8 @@ import Button from "../../button";
 import Input from "../../input";
 
 export default class ChangePasswordDialogProps implements IBlockProps {
-    oldPassword: Input;
-    newPassword: Input;
+    oldPasswordInput: Input;
+    newPasswordInput: Input;
     okButton: Button;
     cancelButton: Button;
 }

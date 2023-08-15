@@ -11,22 +11,22 @@ export default class ChangePasswordDialog extends DialogBlock<ChangePasswordDial
     private _controller: UserController;
     constructor() {
         const props = new ChangePasswordDialogProps();
-        props.oldPassword = new Input('div', {
+        props.oldPasswordInput = new Input('div', {
             label: 'Cтарый пароль',
             value: '',
             events: {},
             attributes:{
-                type: 'text',
+                type: 'password',
                 name: 'oldPassword'
             }
         });
-        props.newPassword = new Input('div', {
+        props.newPasswordInput = new Input('div', {
             label: 'Новый пароль',
             value: '',
             events: {},
             attributes:{
-                type: 'text',
-                name: 'oldPassword'
+                type: 'password',
+                name: 'newPassword'
             }
         });
         props.okButton = new Button('div', {

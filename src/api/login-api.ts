@@ -16,7 +16,7 @@ export class LoginApi extends BaseAPI {
     login(args: object) {
         return loginApiInstance.post(`${baseUrl}/auth/signin`, {
             data: args,
-            timeout: 200,
+            timeout: 2000,
             headers: {}
         });
     }
