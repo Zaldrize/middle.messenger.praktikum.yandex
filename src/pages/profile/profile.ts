@@ -218,7 +218,6 @@ export default class ProfilePage extends Block<ProfilePageProps> {
 
     updateUserData() {
         let userData = store.getState()['user'];
-        //this.setProps({userData: userData} as ProfilePageProps);
 
         this._children.loginInput.setProps({value: userData.login});
         this._children.emailInput.setProps({value: userData.email});

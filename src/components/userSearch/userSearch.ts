@@ -1,9 +1,9 @@
 import Block from "../block/block";
-import { ChatSearchProps } from "./types";
+import { UserSearchProps } from "./types";
 import chatSearch from './chatSearch.hbs'
 import isEqual from "../../utils/isEqual";
 
-export default class ChatSearch extends Block<ChatSearchProps> {
+export default class UserSearch extends Block<UserSearchProps> {
     addAttributes() {
         this._attributes && Object.keys(this._attributes).forEach((key) => {
             this._element.querySelector('input')

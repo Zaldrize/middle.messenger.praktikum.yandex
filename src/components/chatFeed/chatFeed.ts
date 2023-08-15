@@ -2,7 +2,7 @@ import chatFeed from './chatFeed.hbs'
 import './chatFeed.less'
 import Block from '../block/block';
 import { ChatFeedProps } from './types';
-import ChatSearch from '../chatSearch';
+import ChatSearch from '../userSearch';
 import { UserApi } from '../../api/user-api';
 import Button from '../button/button';
 import AddChatDialog from '../dialogs/addChatDialog/addChatDialog';
