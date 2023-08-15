@@ -168,18 +168,34 @@ class Block<T extends IBlockProps> {
   compile(template: (param?: any) => string) {
     const propsAndStubs = { ...this._props, ...this._attributes };
 
-    Object.entries(this._children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id="${child.id}"></div>`
-    });
+    Object.entries(this._children).forEach(([key, component]) => {
+      if (Array.isArray(component)) {
+          propsAndStubs[key] = component.map((c) => `<div data-id="${c.id}"></div>`);
+      } else {
+          propsAndStubs[key] = `<div data-id="${component.id}"></div>`;
+      }
+  });
 
     const fragment = this._createDocumentElement('template');
 
     fragment.innerHTML = template(propsAndStubs);
+    const replaceTagToComponent = (component: Block<any>) => {
+      const tag = fragment.content.querySelector(`[data-id="${component.id}"]`);
 
-    Object.values(this._children).forEach(child => {
-      const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
+      if (!tag) {
+          return;
+      }
 
-      stub?.replaceWith(child.getContent());
+      component.getContent()?.append(...Array.from(tag.childNodes));
+      // заменяем комопнент
+      tag.replaceWith(component.getContent()!);
+  };
+    Object.values(this._children).forEach(component => {
+      if (Array.isArray(component)) {
+        component.forEach((componentItem) => replaceTagToComponent(componentItem));
+    } else {
+        replaceTagToComponent(component);
+    }
     });
     return fragment.content;
   }

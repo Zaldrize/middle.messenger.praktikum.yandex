@@ -71,7 +71,7 @@ export class HTTPTransport {
             xhr.timeout = timeout;
             xhr.ontimeout = reject;
             xhr.withCredentials = true;
-
+            xhr.setRequestHeader('accept', 'application/json');
             if (isGet || !data) {
                 xhr.send();
             } 

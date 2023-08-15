@@ -2,40 +2,20 @@ import chatFeed from './chatFeed.hbs'
 import './chatFeed.less'
 import Block from '../block/block';
 import { ChatFeedProps } from './types';
-import ChatSearch from '../userSearch';
 import { UserApi } from '../../api/user-api';
 import Button from '../button/button';
 import AddChatDialog from '../dialogs/addChatDialog/addChatDialog';
 import { userInfo } from '../../models/user';
+import ChatController from '../../controllers/chatController';
+import store, { StoreEvents } from '../../modules/store';
+import ChatItemComponent from '../chat/chat';
+import ChatItem from '../../models/chatItem';
 
 export default class ChatFeed extends Block<ChatFeedProps> {
+
+    private _chatController = new ChatController();
     constructor() {
-        const props = {
-            chatItems: [
-                {
-                    chatName: 'Папа',
-                    lastMessageSender: 'Папа',
-                    lastMessageText: 'Ок'
-                },
-                {
-                    chatName: 'Мама',
-                    lastMessageSender: 'Я',
-                    lastMessageText: 'Позвоню чуть позже'
-                },
-            ],
-            chatSearch: new ChatSearch('div', {
-                attributes: {
-                    placeholder: 'Search...',
-                    class: 'chat-search'
-                },
-                events: {
-                    'input': (e: Event) => this.search(e),
-                },
-                users: []
-            }),
-            attributes: {
-                class: 'chats'
-            },
+        const props = {            
             addChatDialog: new AddChatDialog(),
             addChatButton: new Button('div', {
                 text: '+',
@@ -45,9 +25,36 @@ export default class ChatFeed extends Block<ChatFeedProps> {
                 events: {
                     'click': ()=> this.openAddChatDialog()
                 }
-            })
-        }
-        super('div', props)
+            }),
+            chatComponents: []
+            
+        };
+        super('div', props);
+        this._chatController.getChats();
+        store.on(StoreEvents.Updated, () => this.update());
+    }
+
+    getChildren(propsAndChildren: Record<string, any>) {
+        const children: Record<string, any> = {};
+        const props: Record<string, any> = {};
+    
+        Object.entries(propsAndChildren).forEach(([key, value]) => {
+          if ((value instanceof Block) || 
+          (Array.isArray(value) && value.every(v=>v instanceof Block))) {
+            children[key] = value;
+          } else {
+            props[key] = value;
+          }
+        });
+    
+        return { children, props };
+      }
+
+    update() {
+        const chats = store.getState()['chats'];
+        const chatComponents: Array<ChatItemComponent> = 
+        chats.map((c: ChatItem)=>new ChatItemComponent(c));
+        this.setProps({chatComponents: chatComponents} as ChatFeedProps);
     }
     render() {
         return this.compile(chatFeed);

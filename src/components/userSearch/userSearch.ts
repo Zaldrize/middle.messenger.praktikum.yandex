@@ -1,6 +1,6 @@
 import Block from "../block/block";
 import { UserSearchProps } from "./types";
-import chatSearch from './chatSearch.hbs'
+import chatSearch from './userSearch.hbs'
 import isEqual from "../../utils/isEqual";
 
 export default class UserSearch extends Block<UserSearchProps> {
