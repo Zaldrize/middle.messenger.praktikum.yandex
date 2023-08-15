@@ -5,7 +5,9 @@ import Block from '../../components/block/block'
 import Input from '../../components/input/input';
 import Button from '../../components/button/button';
 import { Router } from '../../routing/router';
-import { LoginApi } from '../../api/login-api';
+import GetModelFromFormData from '../../utils/getModelFromFormData';
+import LoginRequest from '../../models/loginRequest';
+import LoginController from '../../controllers/loginController';
 
 export default class LoginPage extends Block<LoginPageProps> {
     constructor() {
@@ -55,14 +57,17 @@ export default class LoginPage extends Block<LoginPageProps> {
     signIn(event: MouseEvent) {
         event.preventDefault();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let formData = new FormData(form);
-        let data: Record<string, string> = {};
-        for (var pair of formData.entries()) {
-            data[pair[0]] = pair[1].toString();
-          }
-        let loginApi = new LoginApi();
-        loginApi.login(data).then(()=>
-        Router.getInstance().go('/messenger')
-        );
+        const request = GetModelFromFormData<LoginRequest>(new FormData(form));
+        const controller = new LoginController();
+        controller.login(request).then(res => {
+            if (res) {
+                Router.getInstance().go('/messenger');
+            }
+            else {
+                this._children.inputLogin.setProps({value: ''});
+                this._children.inputPassword.setProps({value: ''});
+            }
+        });
+       
     }
 }

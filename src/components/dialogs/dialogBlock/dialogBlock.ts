@@ -1,5 +1,5 @@
-import Block from "../block/block";
-import { IBlockProps } from "../block/types";
+import Block from "../../block/block";
+import { IBlockProps } from "../../block/types";
 
 export default class DialogBlock<T extends IBlockProps> extends Block<T> {
     constructor(propsAndChildren: T) {

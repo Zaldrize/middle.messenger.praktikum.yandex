@@ -1,8 +1,8 @@
 import AddChatDialogProps from "./types";
 import addChatDialog from "./addChatDialog.hbs"
 import DialogBlock from "../dialogBlock/dialogBlock";
-import Button from "../button/button";
-import Input from "../input/input";
+import Button from "../../button/button";
+import Input from "../../input/input";
 import './addChatDialog.less'
 
 export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {

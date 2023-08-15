@@ -10,8 +10,10 @@ import { PhoneValidator } from '../../validators/phoneValidator';
 import register from './register.hbs';
 import './register.less';
 import { RegisterPageProps } from './types';
-import { LoginApi } from '../../api/login-api';
 import { fullUserInfo } from '../../models/user';
+import GetModelFromFormData from '../../utils/getModelFromFormData';
+import LoginController from '../../controllers/loginController';
+import { Router } from '../../routing/router';
 
 export default class RegisterPage extends Block<RegisterPageProps> {
     _loginValidator = new LoginValidator();
@@ -19,7 +21,7 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     _phoneValidator = new PhoneValidator();
     _nameValidator = new NameValidator();
     _passwordValidator = new PasswordValidator()
-    _loginApi = new LoginApi();
+    _loginController = new LoginController();
     constructor() {
         const props = new RegisterPageProps();
         props.attributes = {
@@ -123,19 +125,16 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     submit(event: MouseEvent) {
         event.preventDefault();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let formData = new FormData(form);
         const validator = new RegisterValidator();
-        let data: Record<string, string> = {};
-        for (var pair of formData.entries()) {
-            data[pair[0]] = pair[1].toString();
-          }
-        const userData = data as unknown as fullUserInfo;
+        const userData = GetModelFromFormData<fullUserInfo>(new FormData(form));
         if (validator.isValid(userData)) {
-            console.log(data);
-            this._loginApi.create(userData)
-            .then((x: XMLHttpRequest)=>
-            console.log((<{id: Number}>x.response).id),
-            x=>console.log(x.response));
+           this._loginController.createUser(userData).then(res => {
+            if (res)
+            {
+                Router.getInstance().go("/messenger");
+            }
+            
+           });
         }
         else {
             alert(validator.getMessage());

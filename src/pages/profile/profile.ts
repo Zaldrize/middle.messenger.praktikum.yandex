@@ -13,10 +13,14 @@ import {ProfileValidator, validate } from '../../validators/aggregateValidator'
 import { NotEmptyValidator } from '../../validators/notEmptyValidator'
 import { LoginApi } from '../../api/login-api'
 import isEqual from '../../utils/isEqual'
-import UserController from './userController'
+import UserController from '../../controllers/userController'
 import store, { StoreEvents } from '../../modules/store'
 import { Router } from '../../routing/router'
-import { fullUserInfo } from '../../models/user'
+import { userInfo } from '../../models/user'
+import Image from '../../components/img/img'
+import defaultUserPic from '../../../static/defaultUserPic.svg'
+import ChangePasswordDialog from '../../components/dialogs/changePasswordDialog'
+import GetModelFromFormData from '../../utils/getModelFromFormData'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -25,6 +29,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     _nameValidator = new NameValidator();
     _passwordValidator = new PasswordValidator()
     _notEmptyValidator = new NotEmptyValidator();
+    _controller: UserController;
     constructor() {
         const props = new ProfilePageProps();
         props.userData = {
@@ -37,18 +42,15 @@ export default class ProfilePage extends Block<ProfilePageProps> {
             email: '',
             phone: ''
         };
-        const controlller = new UserController();
-        controlller.getUser();
+       
         store.on(StoreEvents.Updated, () => this.updateUserData());
         props.attributes = {
             class: 'profile-container'
         }
 
-        props.avatarInput = new Input('div', {
-            label:'',
-            value: '',
+        props.avatar =  new Image({
             attributes: {
-                type: 'file'
+                class: 'user-pic'
             }
         });
         props.emailInput = new Input('div', {
@@ -129,19 +131,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
                 }
             }
         });
-        props.passwordInput = new Input('div', {
-            label: 'Password',
-            value: 'password',
-            attributes: {
-                type: 'password',
-                name: 'password',
-            },
-            events: {
-                'blur': (e) => {
-                    validate(e, this._passwordValidator);
-                }
-            }
-        });
+        props.changePasswordDialog = new ChangePasswordDialog();
 
         props.saveButton = new Button('div', {
             text: 'Сохранить данные',
@@ -163,7 +153,20 @@ export default class ProfilePage extends Block<ProfilePageProps> {
                 'click': (event: MouseEvent) => this.exit(event)
             }
         })
+
+        props.changePasswordButton = new Button('div', {
+            text: 'Сменить пароль',
+            events: {
+                'click': (event:MouseEvent) => this.changePassword(event)
+            }
+        })
         super('div', props);
+        this._controller = new UserController();
+        this._controller.getUser();
+    }
+    changePassword(event: MouseEvent) {
+        event.preventDefault();
+        this._children.changePasswordDialog.show();
     }
     render() {
         return this.compile(profile);
@@ -179,14 +182,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         event.preventDefault();
         const validator = new ProfileValidator();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let formData = new FormData(form);
-        let data: Record<string, string> = {};
-        for (var pair of formData.entries()) {
-            data[pair[0]] = pair[1].toString();
-          }
-        const userData = data as unknown as fullUserInfo;
+       
+        const userData = GetModelFromFormData<userInfo>(new FormData(form));
         if (validator.isValid(userData)) {
-            console.log(data);
+            this._controller.saveUserProfile(userData);
         }
         else {
             alert(validator.getMessage());
@@ -211,6 +210,12 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         this._children.displayNameInput.setProps({value: userData.display_name});
         this._children.firstNameInput.setProps({value: userData.first_name});
         this._children.secondNameInput.setProps({value: userData.second_name});
+        if (userData.avatar) {
+            this._children.avatar.setProps({attributes: {src: userData.avatar}})
+        }
+        else {
+            this._children.avatar.setProps({attributes: {src: defaultUserPic}})
+        }
 
     }
 }

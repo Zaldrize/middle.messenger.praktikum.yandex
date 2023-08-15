@@ -1,4 +1,6 @@
 
+import PasswordRequest from "../models/passwordRequest";
+import { userInfo } from "../models/user";
 import { HTTPTransport } from "../modules/fetch";
 import { BaseAPI, baseUrl } from "./base-api";
 
@@ -8,9 +10,16 @@ import { BaseAPI, baseUrl } from "./base-api";
   export class UserApi extends BaseAPI {
     get() {
         return userApiInstance.get(`${baseUrl}/auth/user`, {
-            data: {},
+            data: null,
             timeout: 200,
             headers: {}
+        });
+    }
+    put(data: userInfo) {
+        return userApiInstance.put(`${baseUrl}/user/profile`, {
+            data: data,
+            timeout: 200,
+             headers: {}
         });
     }
     search(input: string) {
@@ -19,5 +28,12 @@ import { BaseAPI, baseUrl } from "./base-api";
             timeout: 200,
             headers: {}
         })
+    }
+    changePassword(data: PasswordRequest) {
+        return userApiInstance.put(`${baseUrl}/user/password`, {
+            data: data,
+            timeout: 200,
+            headers: {}
+        });
     }
 }

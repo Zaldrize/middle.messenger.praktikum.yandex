@@ -5,7 +5,7 @@ import { ChatFeedProps } from './types';
 import ChatSearch from '../chatSearch';
 import { UserApi } from '../../api/user-api';
 import Button from '../button/button';
-import AddChatDialog from '../addChatDialog/addChatDialog';
+import AddChatDialog from '../dialogs/addChatDialog/addChatDialog';
 import { userInfo } from '../../models/user';
 
 export default class ChatFeed extends Block<ChatFeedProps> {
