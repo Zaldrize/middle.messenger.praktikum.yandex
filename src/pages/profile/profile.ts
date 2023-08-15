@@ -22,6 +22,7 @@ import ChangePasswordDialog from '../../components/dialogs/changePasswordDialog'
 import GetModelFromFormData from '../../utils/getModelFromFormData'
 import LoginController from '../../controllers/loginController'
 import ChangeAvatarDialog from '../../components/dialogs/changeAvatarDialog/changeAvatarDialog'
+import { resourceUrl } from '../../api/base-api'
 
 export default class ProfilePage extends Block<ProfilePageProps> {
     _loginValidator = new LoginValidator();
@@ -199,7 +200,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     submit(event: MouseEvent) {
         event.preventDefault();
         const validator = new ProfileValidator();
-        let form = <HTMLFormElement>this._element.querySelector('form');
+        let form = <HTMLFormElement>this._element.querySelector('#profileForm');
        
         const userData = GetModelFromFormData<userInfo>(new FormData(form));
         if (validator.isValid(userData)) {
@@ -216,7 +217,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
     }
 
     updateUserData() {
-        let userData = JSON.parse(store.getState()['user']);
+        let userData = store.getState()['user'];
         //this.setProps({userData: userData} as ProfilePageProps);
 
         this._children.loginInput.setProps({value: userData.login});
@@ -226,7 +227,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         this._children.firstNameInput.setProps({value: userData.first_name});
         this._children.secondNameInput.setProps({value: userData.second_name});
         if (userData.avatar) {
-            this._children.avatar.setProps({src: userData.avatar})
+            this._children.avatar.setProps({src: `${resourceUrl}/${userData.avatar}`})
         }
         else {
             this._children.avatar.setProps({src: defaultUserPic})

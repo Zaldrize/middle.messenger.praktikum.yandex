@@ -36,4 +36,12 @@ import { BaseAPI, baseUrl } from "./base-api";
             headers: {}
         });
     }
+
+    changeAvatar(data: FormData) {
+        return userApiInstance.put(`${baseUrl}/user/profile/avatar`, {
+            data: data,
+            timeout: 3000,
+            headers: {}
+        });
+    }
 }

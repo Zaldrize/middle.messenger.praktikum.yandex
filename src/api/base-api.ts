@@ -13,3 +13,5 @@ export class BaseAPI {
 }
 
 export const baseUrl = 'https://ya-praktikum.tech/api/v2';
+
+export const resourceUrl = 'https://ya-praktikum.tech/api/v2/resources';
