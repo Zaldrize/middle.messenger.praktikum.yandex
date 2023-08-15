@@ -51,6 +51,7 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         }
 
         props.avatar =  new Image({
+            src: defaultUserPic,
             attributes: {
                 class: 'user-pic'
             }
@@ -214,10 +215,10 @@ export default class ProfilePage extends Block<ProfilePageProps> {
         this._children.firstNameInput.setProps({value: userData.first_name});
         this._children.secondNameInput.setProps({value: userData.second_name});
         if (userData.avatar) {
-            this._children.avatar.setProps({attributes: {src: userData.avatar}})
+            this._children.avatar.setProps({src: userData.avatar})
         }
         else {
-            this._children.avatar.setProps({attributes: {src: defaultUserPic}})
+            this._children.avatar.setProps({src: defaultUserPic})
         }
 
     }
