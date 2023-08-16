@@ -9,4 +9,16 @@ export default class ChatController {
         .then(x=>
             store.set('chats',x));
     }
+
+    public createChat(chatName: string) {
+        return this._chatApi.createChat(chatName)
+        .then(
+            (x:XMLHttpRequest) => {
+                if (x.status === 200) {
+                    this.getChats();
+                }
+                else console.log(x.response);
+            }
+        )
+    }
 }

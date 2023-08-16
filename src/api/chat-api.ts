@@ -21,4 +21,12 @@ export class ChatApi extends BaseAPI {
             }
         );
     }
+
+    createChat(chatName: string) {
+        return chatApiInstance.post(`${baseUrl}/chats`, {
+            data: {title: chatName},
+            timeout: 500,
+            headers: {}
+        })
+    }
 }
