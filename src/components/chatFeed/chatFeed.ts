@@ -34,22 +34,6 @@ export default class ChatFeed extends Block<ChatFeedProps> {
         store.on(StoreEvents.Updated, () => this.update());
     }
 
-    getChildren(propsAndChildren: Record<string, any>) {
-        const children: Record<string, any> = {};
-        const props: Record<string, any> = {};
-    
-        Object.entries(propsAndChildren).forEach(([key, value]) => {
-          if ((value instanceof Block) || 
-          (Array.isArray(value) && value.every(v=>v instanceof Block))) {
-            children[key] = value;
-          } else {
-            props[key] = value;
-          }
-        });
-    
-        return { children, props };
-      }
-
     update() {
         const chats = store.getState()['chats'];
         const chatComponents: Array<ChatItemComponent> = 

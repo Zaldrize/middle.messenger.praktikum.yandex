@@ -25,7 +25,7 @@ import { BaseAPI, baseUrl } from "./base-api";
     search(input: string) {
         return userApiInstance.post(`${baseUrl}/user/search`, {
             data: {login: input},
-            timeout: 200,
+            timeout: 2000,
             headers: {}
         })
     }

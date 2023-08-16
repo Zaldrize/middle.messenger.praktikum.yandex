@@ -1,9 +1,10 @@
 import AddChatDialogProps from "./types";
 import addChatDialog from "./addChatDialog.hbs"
 import DialogBlock from "../dialogBlock/dialogBlock";
-import Button from "../../button/button";
-import Input from "../../input/input";
+import Button from "../../button";
+import Input from "../../input";
 import './addChatDialog.less'
+import UserSearch from "../../userSearch";
 
 export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {
     constructor() {
@@ -20,6 +21,7 @@ export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {
             value: '',
              attributes: {}
         });
+        props.userSearch = new UserSearch();
         super(props);
     }
 

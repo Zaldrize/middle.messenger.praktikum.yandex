@@ -38,4 +38,15 @@ export default class UserController {
             }
         );
     }
+
+    public search(searchString: string): void {
+        this._userApi.search(searchString).then(
+            (x:XMLHttpRequest) => {
+                if (x.status === 200) {
+                    const users = (<userInfo[]>x.response);
+                    store.set("userSearchResult", users);
+                }
+            }
+        )
+    }
 }

@@ -46,7 +46,8 @@ class Block<T extends IBlockProps> {
     const props: Record<string, any> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
+      if ((value instanceof Block) || 
+      (Array.isArray(value) && value.every(v=>v instanceof Block))) {
         children[key] = value;
       } else {
         props[key] = value;
