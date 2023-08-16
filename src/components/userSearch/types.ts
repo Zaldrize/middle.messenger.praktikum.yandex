@@ -1,5 +1,6 @@
 import { IBlockEvents, IBlockProps } from "../block/types";
-import Input from "../input/input";
+import Button from "../button";
+import Input from "../input";
 import UserComponent from "../user/user";
 
 export class UserSearchProps implements IBlockProps {
@@ -8,4 +9,5 @@ export class UserSearchProps implements IBlockProps {
     };
     userComponents: UserComponent[]
     search: Input;
+    searchButton: Button;
 }

@@ -2,10 +2,12 @@ import UserController from "../../controllers/userController";
 import { userInfo } from "../../models/user";
 import store, { StoreEvents } from "../../modules/store";
 import Block from "../block/block";
+import Button from "../button";
 import Input from "../input";
 import UserComponent from "../user/user";
 import { UserSearchProps } from "./types";
-import userSearch from './userSearch.hbs'
+import userSearch from './userSearch.hbs';
+import "./userSearch.less";
 export default class UserSearch extends Block<UserSearchProps> {
     private _userController = new UserController();
     constructor(){
@@ -16,13 +18,16 @@ export default class UserSearch extends Block<UserSearchProps> {
             value: '',
             attributes: {
                 type: 'text',
-                placeholder: 'search'
-            },
-            events: {
-                'change': (e:Event) => this.searchUsers(e)
+                placeholder: 'Type login...'
             }
 
         });
+        props.searchButton = new Button('div', {
+            text:'Search',
+            events: {
+                'click': (e:MouseEvent) => this.searchUsers(e)
+            }
+        })
         props.userComponents = [];
 
         store.on(StoreEvents.Updated, () => this.updateUsers())
@@ -38,7 +43,9 @@ export default class UserSearch extends Block<UserSearchProps> {
         }
     }
     searchUsers(e: Event): void {
-        const searchString = (e.target as HTMLInputElement).value;
+        e.preventDefault();
+        const searchString =(this._children.search as Input).element.querySelector('input')?.value
+         ??'';
         this._userController.search(searchString); // will trigger updateUsers
         
     }

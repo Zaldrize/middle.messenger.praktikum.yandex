@@ -16,10 +16,12 @@ export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {
             text: 'Cancel'
         });
         props.chatNameInput = new Input('div', {
-            label: 'Chat name',
+            label: '',
             events: {},
             value: '',
-             attributes: {}
+             attributes: {
+                placeholder: 'Chat name'
+             }
         });
         props.userSearch = new UserSearch();
         super(props);
