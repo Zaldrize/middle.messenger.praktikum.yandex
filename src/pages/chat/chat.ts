@@ -47,6 +47,7 @@ export default class ChatPage extends Block<ChatPageProps> {
             const socket = store.getState()["currentSocket"] as MessageWebSocket;
             if (socket) {
                 socket.sendMessage(text!.value);
+                text!.value='';
             }
         }
         else {

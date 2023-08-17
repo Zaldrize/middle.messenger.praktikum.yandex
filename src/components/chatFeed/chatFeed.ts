@@ -39,6 +39,7 @@ export default class ChatFeed extends Block<ChatFeedProps> {
         const chatComponents: Array<ChatItemComponent> = 
         chats.map((c: ChatItem)=>new ChatItemComponent(c));
         this.setProps({chatComponents: chatComponents} as ChatFeedProps);
+
     }
     render() {
         return this.compile(chatFeed);

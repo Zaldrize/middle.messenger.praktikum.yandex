@@ -3,9 +3,11 @@ import Block from "../block/block";
 import ChatItemProps from "./types";
 import "./chat.less";
 import chatItem from "./chat.hbs";
-import store, {StoreEvents } from "../../modules/store";
+import store from "../../modules/store";
+import ChatController from "../../controllers/chatController";
 
 export default class ChatItemComponent extends Block<ChatItemProps> {
+    private chatController = new ChatController();
     private chat: ChatItem;
     constructor(c: ChatItem) {
         const props = new ChatItemProps();
@@ -16,6 +18,7 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
         props.events = {
             'click': (e: Event) => this.selectChat(e)
         }
+        
         super('div', props);
         this.chat = c;
     }
@@ -30,11 +33,7 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
     }
     selectChat(e: Event): void {
         e.stopPropagation();
-        let state = store.getState();
-        state["currentChatId"] = this._props.chatId;
-        state["currentChat"] = this.chat;
-        state["currentSocket"] = state["sockets"][this._props.chatId];
-        store.emit(StoreEvents.Updated);
+        this.chatController.selectChat(this.chat);
     }
 
     render() {

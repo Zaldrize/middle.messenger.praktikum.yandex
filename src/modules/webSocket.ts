@@ -1,3 +1,6 @@
+import Message from "../models/message";
+import store, { StoreEvents } from "./store";
+
 export default class MessageWebSocket {
     private socket: WebSocket;
     constructor(chatId: number, userId:number, token: string) {
@@ -19,7 +22,30 @@ export default class MessageWebSocket {
           });
           
           this.socket.addEventListener('message', event => {
-            console.log('Получены данные', event.data);
+            try {
+                const data = JSON.parse(event.data);
+
+                if (data && data.type !== "error" 
+                && data.type !== "pong" && data.type !== "user connected") {
+                    const messages = store.getState().messages ?? [];
+                    if (Array.isArray(data)) {
+                      data.sort((m1: Message, m2: Message) => {
+                        if (m1.time > m2.time)
+                          return 1;
+                        if (m1.time < m2.time)
+                          return -1;
+                        return 0;
+                      });
+                      store.getState().messages = [...messages,...data];
+                    }
+                    else {
+                      store.getState().messages = [...messages,data];
+                    }
+                    store.emit(StoreEvents.Updated);
+                }
+            } catch (error) {
+                console.log(error);
+            }
           });
           
           this.socket.addEventListener('error', event => {
@@ -40,7 +66,6 @@ export default class MessageWebSocket {
             content: '0',
             type: 'get old',
           })); 
-        console.log(r);
         return r;
     }
 }

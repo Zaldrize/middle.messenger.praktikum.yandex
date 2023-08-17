@@ -1,5 +1,6 @@
 import { ChatApi } from "../api/chat-api";
 import AddUsersRequest from "../models/addUsersRequest";
+import ChatItem from "../models/chatItem";
 import { userInfo } from "../models/user";
 import store from "../modules/store";
 import MessageWebSocket from "../modules/webSocket";
@@ -54,5 +55,15 @@ export default class ChatController {
                 }
             }
         )
+    }
+    
+    public selectChat(chat: ChatItem) {
+        const state = store.getState();
+        state["currentChatId"] = chat.id;
+        state["currentChat"] = chat;
+        state["currentSocket"] = state["sockets"][chat.id];
+        state["messages"] = [];
+        this._chatApi.getChatUsers(chat.id).then(x=>state["chatUsers"] = x);
+        (state["currentSocket"] as MessageWebSocket).getOldMessages();
     }
 }

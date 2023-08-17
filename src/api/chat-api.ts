@@ -1,5 +1,6 @@
 import AddUsersRequest from "../models/addUsersRequest";
 import ChatItem from "../models/chatItem";
+import { userInfo } from "../models/user";
 import { HTTPTransport } from "../modules/fetch";
 import { BaseAPI, baseUrl } from "./base-api";
 
@@ -45,5 +46,15 @@ export class ChatApi extends BaseAPI {
             timeout: 2000,
             headers: {}
         });
+    }
+
+    getChatUsers(chatId:number) {
+        return chatApiInstance.get(`${baseUrl}/chats/${chatId}/users`, {
+            data: null,
+            timeout: 2000,
+            headers: {}
+        }).then(
+            (x: XMLHttpRequest)=> {return JSON.parse(x.response) as userInfo[];}
+        );
     }
 }
