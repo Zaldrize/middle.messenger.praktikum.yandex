@@ -7,4 +7,5 @@ export default class ChangeAvatarDialogProps implements IBlockProps
     avatarInput: Input;
     submitButton: Button;
     cancelButton: Button;
+    src: string;
 }

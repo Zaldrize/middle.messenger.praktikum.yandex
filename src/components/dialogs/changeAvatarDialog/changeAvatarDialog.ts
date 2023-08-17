@@ -5,12 +5,16 @@ import ChangeAvatarDialogProps from "./types";
 import changeAvatarDialog from "./changeAvatarDialog.hbs"
 import "./changeAvatarDialog.less"
 import UserController from "../../../controllers/userController";
+import { resourceUrl } from "../../../api/base-api";
+import { userInfo } from "../../../models/user";
+import store, { StoreEvents } from "../../../modules/store";
 
 export default class ChangeAvatarDialog extends DialogBlock<ChangeAvatarDialogProps> {
     private _userController = new UserController();
     constructor()
     {
         const props = new ChangeAvatarDialogProps();
+        store.on(StoreEvents.Updated, () => this.updateAvatar());
         props.avatarInput = new Input('div',
         {
             label: '',
@@ -35,6 +39,13 @@ export default class ChangeAvatarDialog extends DialogBlock<ChangeAvatarDialogPr
             }
         });
         super(props);
+    }
+    updateAvatar(): void {
+       
+        const user = store.getState().user as userInfo;
+        if (user.avatar) {
+            this.setProps({src:`${resourceUrl}/${user.avatar}`} as ChangeAvatarDialogProps);
+        }
     }
 
     changeAvatar() {

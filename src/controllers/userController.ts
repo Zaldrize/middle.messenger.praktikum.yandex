@@ -34,7 +34,7 @@ export default class UserController {
         this._userApi.changeAvatar(data).then(
             (x:XMLHttpRequest) => {
                 if (x.status === 200) {
-                    const user = (<userInfo>x.response);
+                    const user = (<userInfo>JSON.parse(x.response));
                     store.set("user", user);
                 }
             }
