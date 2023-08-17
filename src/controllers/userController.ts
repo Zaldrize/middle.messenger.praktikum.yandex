@@ -5,13 +5,15 @@ import PasswordRequest from "../models/passwordRequest";
 export default class UserController {
     private _userApi = new UserApi();
 
-    public getUser(): void {
-        this._userApi.get().then(
+    public getUser(): Promise<boolean> {
+        return this._userApi.get().then(
             (x: XMLHttpRequest)=> {
                 if (x.status === 200) {
-                const user = JSON.parse(x.response);
-                store.set('user', user)
+                    const user = JSON.parse(x.response);
+                    store.set('user', user)
+                    return true;
                 }
+                return false;
             }
         );
     }

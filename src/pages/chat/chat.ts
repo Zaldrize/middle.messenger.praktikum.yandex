@@ -10,6 +10,7 @@ import { NotEmptyValidator } from '../../validators/notEmptyValidator';
 import ChatHeaderComponent from '../../components/chatHeader/chatHeader';
 import store, {StoreEvents } from '../../modules/store';
 import ChatItem from '../../models/chatItem';
+import MessageWebSocket from '../../modules/webSocket';
 export default class ChatPage extends Block<ChatPageProps> {
     constructor() {
         const props = {
@@ -43,6 +44,10 @@ export default class ChatPage extends Block<ChatPageProps> {
         if (validator.isValid(text?.value || '')){
             text?.setCustomValidity('');
             console.log(text?.value);
+            const socket = store.getState()["currentSocket"] as MessageWebSocket;
+            if (socket) {
+                socket.sendMessage(text!.value);
+            }
         }
         else {
             text?.setCustomValidity(validator.getMessage());

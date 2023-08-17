@@ -33,6 +33,7 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
         let state = store.getState();
         state["currentChatId"] = this._props.chatId;
         state["currentChat"] = this.chat;
+        state["currentSocket"] = state["sockets"][this._props.chatId];
         store.emit(StoreEvents.Updated);
     }
 

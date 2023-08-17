@@ -38,4 +38,12 @@ export class ChatApi extends BaseAPI {
             headers: {}
         });
     }
+
+    getChatToken(chatId:number) {
+        return chatApiInstance.post(`${baseUrl}/chats/token/${chatId}`, {
+            data: null,
+            timeout: 2000,
+            headers: {}
+        });
+    }
 }
