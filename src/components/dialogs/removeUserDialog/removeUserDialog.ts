@@ -47,7 +47,6 @@ export default class RemoveUserDialog extends DialogBlock<RemoveUserDialogProps>
         this.chatController.removeUsers(users, state["currentChatId"]).then(
             () => {
                 delete state["removedUsers"];
-                this._children.userSearch.setProps({});
             }
         );
     }
