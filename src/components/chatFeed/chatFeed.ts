@@ -7,7 +7,7 @@ import Button from '../button/button';
 import AddChatDialog from '../dialogs/addChatDialog/addChatDialog';
 import { userInfo } from '../../models/user';
 import ChatController from '../../controllers/chatController';
-import store, { StoreEvents } from '../../modules/store';
+import store, {StoreEvents } from '../../modules/store';
 import ChatItemComponent from '../chat/chat';
 import ChatItem from '../../models/chatItem';
 

@@ -19,4 +19,4 @@ export enum StoreEvents {
     }
   } 
 
-  export default new Store()
+export default new Store();
