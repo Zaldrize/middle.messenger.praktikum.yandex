@@ -2,10 +2,8 @@ import chatFeed from './chatFeed.hbs'
 import './chatFeed.less'
 import Block from '../block/block';
 import { ChatFeedProps } from './types';
-import { UserApi } from '../../api/user-api';
 import Button from '../button/button';
 import AddChatDialog from '../dialogs/addChatDialog/addChatDialog';
-import { userInfo } from '../../models/user';
 import ChatController from '../../controllers/chatController';
 import store, {StoreEvents } from '../../modules/store';
 import ChatItemComponent from '../chat/chat';
@@ -43,23 +41,6 @@ export default class ChatFeed extends Block<ChatFeedProps> {
     }
     render() {
         return this.compile(chatFeed);
-    }
-
-    search(e: Event) {
-        e.preventDefault();
-        const loginSearch = (e.target as HTMLInputElement).value;
-        const api = new UserApi();
-        api.search(loginSearch).then((x: XMLHttpRequest)=>
-            {
-                const items = JSON.parse(x.response) as userInfo[];
-                if (items) {
-                    this._children.chatSearch.setProps(
-                        {
-                            users: items,
-                            attributes: {value: loginSearch}
-                        });
-                }
-            });            
     }
 
     openAddChatDialog() {

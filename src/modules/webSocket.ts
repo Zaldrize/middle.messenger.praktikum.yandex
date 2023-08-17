@@ -1,4 +1,6 @@
 import Message from "../models/message";
+import { userInfo } from "../models/user";
+import last from "../utils/last";
 import store, { StoreEvents } from "./store";
 
 export default class MessageWebSocket {
@@ -27,21 +29,7 @@ export default class MessageWebSocket {
 
                 if (data && data.type !== "error" 
                 && data.type !== "pong" && data.type !== "user connected") {
-                    const messages = store.getState().messages ?? [];
-                    if (Array.isArray(data)) {
-                      data.sort((m1: Message, m2: Message) => {
-                        if (m1.time > m2.time)
-                          return 1;
-                        if (m1.time < m2.time)
-                          return -1;
-                        return 0;
-                      });
-                      store.getState().messages = [...messages,...data];
-                    }
-                    else {
-                      store.getState().messages = [...messages,data];
-                    }
-                    store.emit(StoreEvents.Updated);
+                    this.workMessage(data);
                 }
             } catch (error) {
                 console.log(error);
@@ -52,6 +40,31 @@ export default class MessageWebSocket {
             console.log('Ошибка', event);
           });        
     }
+  private workMessage(data: any) {
+    const messages = store.getState().messages ?? [];
+    if (Array.isArray(data)) {
+      data.sort((m1: Message, m2: Message) => {
+        if (m1.time > m2.time)
+          return 1;
+        if (m1.time < m2.time)
+          return -1;
+        return 0;
+      });
+      store.getState().messages = [...messages, ...data];
+    }
+    else {
+      store.getState().messages = [...messages, data];
+    }
+    const lastMessage = last(store.getState().messages) as Message;    
+    const chatUsers = store.getState()["chatUsers"] as Array<userInfo>;
+    store.getState().currentChat.last_message = {
+      user: chatUsers.find(x=>x.id===lastMessage.user_id),
+      time: lastMessage.time,
+      content: lastMessage.content
+    }
+    store.emit(StoreEvents.Updated);
+  }
+
     sendMessage(message: string) {
         this.socket.send(
             JSON.stringify({
