@@ -1,4 +1,4 @@
-import AddUsersRequest from "../models/addUsersRequest";
+import ChatUsersRequest from "../models/addUsersRequest";
 import ChatItem from "../models/chatItem";
 import { userInfo } from "../models/user";
 import { HTTPTransport } from "../modules/fetch";
@@ -32,7 +32,7 @@ export class ChatApi extends BaseAPI {
         })
     }
 
-    addUsers(request: AddUsersRequest) {
+    addUsers(request: ChatUsersRequest) {
         return chatApiInstance.put(`${baseUrl}/chats/users`, {
             data: request,
             timeout: 2000,
@@ -56,5 +56,13 @@ export class ChatApi extends BaseAPI {
         }).then(
             (x: XMLHttpRequest)=> {return JSON.parse(x.response) as userInfo[];}
         );
+    }
+    
+    removeUsers(request: ChatUsersRequest) {
+        return chatApiInstance.delete(`${baseUrl}/chats/users`, {
+            data: request,
+            timeout: 2000,
+            headers: {}
+        });
     }
 }

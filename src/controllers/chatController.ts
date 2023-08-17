@@ -1,5 +1,5 @@
 import { ChatApi } from "../api/chat-api";
-import AddUsersRequest from "../models/addUsersRequest";
+import ChatUsersRequest from "../models/addUsersRequest";
 import ChatItem from "../models/chatItem";
 import { userInfo } from "../models/user";
 import store from "../modules/store";
@@ -44,7 +44,7 @@ export default class ChatController {
     
     public addUsers(users: Array<number>, chatId: number)
     {
-        const request = new AddUsersRequest();
+        const request = new ChatUsersRequest();
         request.chatId = chatId;
         request.users = users;
         return this._chatApi.addUsers(request)
@@ -56,7 +56,19 @@ export default class ChatController {
             }
         )
     }
-    
+    public removeUsers(users: Array<number>, chatId: number) {
+        const request = new ChatUsersRequest();
+        request.chatId = chatId;
+        request.users = users;
+        return this._chatApi.removeUsers(request)
+        .then(
+            (x: XMLHttpRequest) => {
+                if (x.status !== 200){
+                    console.log(x.response);
+                }
+            }
+        )
+    }
     public selectChat(chat: ChatItem) {
         const state = store.getState();
         state["currentChatId"] = chat.id;

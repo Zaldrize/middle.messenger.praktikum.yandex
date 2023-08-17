@@ -27,7 +27,8 @@ export default class AddUsersDialog extends DialogBlock<AddUsersDialogProps> {
         super(props);
     }
     cancel() {
-        throw new Error("Method not implemented.");
+        const state = store.getState();
+        delete state["newUsers"];
     }
     addUsers() {
         const state = store.getState();
