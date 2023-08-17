@@ -1,3 +1,4 @@
+import AddUsersRequest from "../models/addUsersRequest";
 import ChatItem from "../models/chatItem";
 import { HTTPTransport } from "../modules/fetch";
 import { BaseAPI, baseUrl } from "./base-api";
@@ -28,5 +29,13 @@ export class ChatApi extends BaseAPI {
             timeout: 500,
             headers: {}
         })
+    }
+
+    addUsers(request: AddUsersRequest) {
+        return chatApiInstance.put(`${baseUrl}/chats/users`, {
+            data: request,
+            timeout: 2000,
+            headers: {}
+        });
     }
 }

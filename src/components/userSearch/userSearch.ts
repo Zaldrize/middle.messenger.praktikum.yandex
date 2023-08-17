@@ -1,7 +1,6 @@
 import UserController from "../../controllers/userController";
 import { userInfo } from "../../models/user";
 import store, {StoreEvents } from "../../modules/store";
-import isEqual from "../../utils/isEqual";
 import Block from "../block/block";
 import Button from "../button";
 import Input from "../input";
@@ -54,10 +53,5 @@ export default class UserSearch extends Block<UserSearchProps> {
     render() {
         return this.compile(userSearch);
     }
-
-    componentDidUpdate(newProps: UserSearchProps): boolean {
-        return !isEqual(this._children.userComponents, newProps.userComponents);
-    }
-
 
 }
