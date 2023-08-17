@@ -11,8 +11,11 @@ import ChatHeaderComponent from '../../components/chatHeader/chatHeader';
 import store, {StoreEvents } from '../../modules/store';
 import ChatItem from '../../models/chatItem';
 import MessageWebSocket from '../../modules/webSocket';
+import UserController from '../../controllers/userController';
 export default class ChatPage extends Block<ChatPageProps> {
     constructor() {
+        const userController = new UserController();
+        userController.getUser();
         const props = {
             chatFeed: new ChatFeed(),
             history: new MessageHistoryBlock(),

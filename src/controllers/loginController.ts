@@ -11,7 +11,8 @@ export default class LoginController {
                 if (x.status === 200) {
                     return true;
                 }
-                if (x.response.reason === 'User already in system') {
+                const response = JSON.parse(x.response);
+                if (response.reason === 'User already in system') {
                     return true;
                 }
                 return false;
