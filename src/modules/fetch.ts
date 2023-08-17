@@ -11,37 +11,37 @@ function queryStringify(data: Record<string, any>) {
         return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
     }, '?');
 }
-type Options = {
+
+export type Options = {
     timeout: number,
     headers: Record<string, string>,
-    data: any,
-    method: METHOD
+    data: any
 }
 
-type HTTPMethod = (url: string, options: Options) => Promise<unknown>
+type HTTPMethod = (url: string, options: Options) => Promise<XMLHttpRequest>
 
 export class HTTPTransport {
     get: HTTPMethod = (url, options) => {
 
-        return this.request(url, { ...options, method: METHOD.GET }, options.timeout);
+        return this.request(url, METHOD.GET, options, options.timeout);
     };
 
     post: HTTPMethod = (url, options) => {
-        return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+        return this.request(url, METHOD.POST, options, options.timeout);
     };
 
     put: HTTPMethod = (url, options) => {
-        return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
+        return this.request(url,METHOD.PUT, options, options.timeout);
     };
 
     delete: HTTPMethod = (url, options) => {
-        return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
+        return this.request(url, METHOD.DELETE, options, options.timeout);
     };
 
-    request = (url: string, options: Options, timeout: number = 5000) => {
-        const { headers, method, data } = options;
+    request = (url: string, method: METHOD, options: Options, timeout: number = 5000) => {
+        const { headers, data } = options;
 
-        return new Promise(function (resolve, reject) {
+        return new Promise<XMLHttpRequest>(function (resolve, reject) {
             if (!method) {
                 reject('No method');
                 return;
@@ -70,11 +70,17 @@ export class HTTPTransport {
 
             xhr.timeout = timeout;
             xhr.ontimeout = reject;
-
+            xhr.withCredentials = true;
+            xhr.setRequestHeader('accept', 'application/json');
             if (isGet || !data) {
                 xhr.send();
-            } else {
+            } 
+            else if (data instanceof FormData) {
                 xhr.send(data);
+            }
+            else {
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(data));
             }
         });
     };

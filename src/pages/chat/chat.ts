@@ -7,11 +7,19 @@ import ChatFeed from '../../components/chatFeed/chatFeed';
 import MessageHistoryBlock from '../../components/messageHistory/messageHistory';
 import Button from '../../components/button/button';
 import { NotEmptyValidator } from '../../validators/notEmptyValidator';
+import ChatHeaderComponent from '../../components/chatHeader/chatHeader';
+import store, {StoreEvents } from '../../modules/store';
+import ChatItem from '../../models/chatItem';
+import MessageWebSocket from '../../modules/webSocket';
+import UserController from '../../controllers/userController';
 export default class ChatPage extends Block<ChatPageProps> {
     constructor() {
+        const userController = new UserController();
+        userController.getUser();
         const props = {
             chatFeed: new ChatFeed(),
             history: new MessageHistoryBlock(),
+            header: new ChatHeaderComponent(),
             send: sendPic,
             sendButton: new Button('div', {                
                 text: 'Send',
@@ -24,6 +32,14 @@ export default class ChatPage extends Block<ChatPageProps> {
             }
         };
         super('div', props);
+        store.on(StoreEvents.Updated, () => this.chatSelected())
+    }
+
+    chatSelected(): void {
+        const currentChat = store.getState()["currentChat"] as ChatItem;
+        if (currentChat) {
+            this._children.header.setProps({chatName: currentChat.title});
+        }
     }
     sendMessage(e: MouseEvent) {
         const text = this._element.querySelector('textarea');
@@ -31,6 +47,11 @@ export default class ChatPage extends Block<ChatPageProps> {
         if (validator.isValid(text?.value || '')){
             text?.setCustomValidity('');
             console.log(text?.value);
+            const socket = store.getState()["currentSocket"] as MessageWebSocket;
+            if (socket) {
+                socket.sendMessage(text!.value);
+                text!.value='';
+            }
         }
         else {
             text?.setCustomValidity(validator.getMessage());

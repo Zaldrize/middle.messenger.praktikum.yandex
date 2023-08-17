@@ -1,7 +1,7 @@
 import Block from '../../components/block/block';
 import Button from '../../components/button';
 import Input from '../../components/input';
-import { RegisterValidator, userData, validate } from '../../validators/aggregateValidator';
+import { RegisterValidator, validate } from '../../validators/aggregateValidator';
 import { EmailValidator } from '../../validators/emailValidator';
 import { LoginValidator } from '../../validators/loginValidator';
 import { NameValidator } from '../../validators/nameValidator';
@@ -10,6 +10,10 @@ import { PhoneValidator } from '../../validators/phoneValidator';
 import register from './register.hbs';
 import './register.less';
 import { RegisterPageProps } from './types';
+import { fullUserInfo } from '../../models/user';
+import GetModelFromFormData from '../../utils/getModelFromFormData';
+import LoginController from '../../controllers/loginController';
+import { Router } from '../../routing/router';
 
 export default class RegisterPage extends Block<RegisterPageProps> {
     _loginValidator = new LoginValidator();
@@ -17,13 +21,15 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     _phoneValidator = new PhoneValidator();
     _nameValidator = new NameValidator();
     _passwordValidator = new PasswordValidator()
+    _loginController = new LoginController();
     constructor() {
         const props = new RegisterPageProps();
         props.attributes = {
             class: 'div-center'
         }
         props.emailInput = new Input('div', {
-            label: 'Email',
+            label: 'Email',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'email'
@@ -35,7 +41,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.loginInput = new Input('div', {
-            label: 'Login',
+            label: 'Login',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'login'
@@ -47,7 +54,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.firstNameInput = new Input('div', {
-            label: 'First name',
+            label: 'First name',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'first_name'
@@ -59,7 +67,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.secondNameInput = new Input('div', {
-            label: 'Second name',
+            label: 'Second name',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'second_name'
@@ -71,7 +80,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.phoneInput = new Input('div', {
-            label: 'Phone',
+            label: 'Phone',            
+            value: '',
             attributes: {
                 type: 'text',
                 name: 'phone'
@@ -83,7 +93,8 @@ export default class RegisterPage extends Block<RegisterPageProps> {
             }
         });
         props.passwordInput = new Input('div', {
-            label: 'Password',
+            label: 'Password',            
+            value: '',
             attributes: {
                 type: 'password',
                 name: 'password'
@@ -114,15 +125,16 @@ export default class RegisterPage extends Block<RegisterPageProps> {
     submit(event: MouseEvent) {
         event.preventDefault();
         let form = <HTMLFormElement>this._element.querySelector('form');
-        let formData = new FormData(form);
         const validator = new RegisterValidator();
-        let data: Record<string, string> = {};
-        for (var pair of formData.entries()) {
-            data[pair[0]] = pair[1].toString();
-          }
-        const userData = data as userData;
+        const userData = GetModelFromFormData<fullUserInfo>(new FormData(form));
         if (validator.isValid(userData)) {
-            console.log(data);
+           this._loginController.createUser(userData).then(res => {
+            if (res)
+            {
+                Router.getInstance().go("/messenger");
+            }
+            
+           });
         }
         else {
             alert(validator.getMessage());

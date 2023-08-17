@@ -1,5 +1,36 @@
 .user-pic 
 {
-    width: 100px;
-    margin-left: 180px;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+
+    :hover 
+    {
+        cursor: pointer;
+    }
+}
+
+form, h2
+{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-container
+{
+   width: 30%;
+   margin: auto;
+   display:flex;
+   justify-content: center;
+   flex-direction: column;
+}
+
+dialog[open]
+{
+    display: flex;
 }

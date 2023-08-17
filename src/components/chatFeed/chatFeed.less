@@ -1,29 +1,26 @@
 @import url('../../consts.less');
 
+@chatFeedWidth: 200px;
+
 .chats
 {
-    width: 150px;
+    width: @chatFeedWidth;
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
     overflow: auto;
 }
 
-.chat-item 
+.add-chat-button
 {
-    label 
-    {
-        font-weight: bold;
-        text-align: left;
- 
+    button {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
     }
 
-    flex: 0 1 auto;
-}
-
-.chat-item:hover
-{
-    background-color: @button_color;
-    color: #000;
-
+    button:hover {        
+        width: 40px;
+        height: 40px;        
+    }
 }
