@@ -1,8 +1,6 @@
-{{#each chatItems}}
-<div class="chat-item">
-        <label>{{chatName}}</label>
-        <span>{{lastMessageSender}}:</span>
-        <span>{{lastMessageText}}</span>
-</div>
-<hr />
+<a href="/settings">Перейти в профиль</a>
+{{#each chatComponents}}
+        {{{this}}}
 {{/each}}
+{{{addChatButton}}}
+{{{addChatDialog}}}

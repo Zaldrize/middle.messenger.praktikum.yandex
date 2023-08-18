@@ -1,6 +1,8 @@
-  <form>
-        <h2>Профиль</h2>
-        <img src="{{userPic}}" class="user-pic"></img>
+<h2>Профиль</h2>
+{{{avatar}}}
+{{{changeAvatarDialog}}}
+<form id="profileForm">
+    <div>
         {{{emailInput}}}
         {{{loginInput}}}
         {{{firstNameInput}}}
@@ -8,8 +10,12 @@
         {{{displayNameInput}}}
         {{{phoneInput}}}
         {{{passwordInput}}}
-        <div>
-            {{{saveButton}}}
-            {{{cancelButton}}}
-        </div>
-    </form>
+    </div>
+</form>
+<div class="button-container">
+    {{{saveButton}}}
+    {{{changePasswordButton}}}
+    {{{changePasswordDialog}}}
+    {{{cancelButton}}}
+    {{{logOutButton}}}
+</div>

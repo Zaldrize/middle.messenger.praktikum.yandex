@@ -1,0 +1,9 @@
+<div class="chat-item">
+        <img src="{{chatAvatar}}" alt="Chat avatar"/>
+        <label>{{chatName}}</label><br/>
+    {{#if lastMessageSender}}
+        <span>{{lastMessageSender}}:</span>
+        <span>{{lastMessageText}}</span>
+    {{/if}}
+<hr/>
+</div>

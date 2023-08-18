@@ -1,6 +1,6 @@
-{{#each messages}}
-    <rect>
-        <p><b>{{sender}}</b></p>
-        <p>{{{text}}}</p>
-    </rect>
-{{/each}}
+<div class="message-history">
+    {{#each messages}}
+        {{{this}}}
+    {{/each}}
+</div>
+
