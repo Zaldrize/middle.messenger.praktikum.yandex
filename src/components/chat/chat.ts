@@ -8,6 +8,8 @@ import ChatController from "../../controllers/chatController";
 import last from "../../utils/last";
 import Message from "../../models/message";
 import { userInfo } from "../../models/user";
+import chatPic from "../../../static/chatPic.svg";
+import { resourceUrl } from "../../api/base-api";
 
 export default class ChatItemComponent extends Block<ChatItemProps> {
     private chatController = new ChatController();
@@ -15,6 +17,10 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
     constructor(c: ChatItem) {
         const props = new ChatItemProps();
         props.chatName = c.title;
+        props.chatAvatar = chatPic;
+        if (c.avatar) {
+            props.chatAvatar = `${resourceUrl}/${c.avatar}`;
+        }
         props.lastMessageSender = c.last_message?.user.display_name;
         props.lastMessageText = c.last_message?.content;
         props.chatId = c.id;
