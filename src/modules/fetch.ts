@@ -22,7 +22,9 @@ type HTTPMethod = (url: string, options: Options) => Promise<XMLHttpRequest>
 
 export class HTTPTransport {
     get: HTTPMethod = (url, options) => {
-
+        if (options.data) {
+            url = `${url}${queryStringify(options.data)}`;
+        }
         return this.request(url, METHOD.GET, options, options.timeout);
     };
 
@@ -52,9 +54,7 @@ export class HTTPTransport {
 
             xhr.open(
                 method,
-                isGet && !!data
-                    ? `${url}${queryStringify(data)}`
-                    : url,
+                url
             );
 
             Object.keys(headers).forEach(key => {
