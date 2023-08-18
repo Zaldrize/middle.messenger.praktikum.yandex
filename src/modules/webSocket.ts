@@ -8,8 +8,10 @@ export default class MessageWebSocket {
     constructor(chatId: number, userId:number, token: string) {
         this.socket = 
         new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
+        
         this.socket.addEventListener('open', () => {
-            console.log('Соединение установлено');         
+            console.log('Соединение установлено');   
+            setInterval(()=>this.ping(), 300);      
         
           });
           
@@ -80,5 +82,11 @@ export default class MessageWebSocket {
             type: 'get old',
           })); 
         return r;
+    }
+
+    ping() {
+      this.socket.send(JSON.stringify({
+        type: 'ping'
+      }));
     }
 }
