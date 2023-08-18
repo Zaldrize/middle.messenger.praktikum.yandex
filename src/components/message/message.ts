@@ -11,4 +11,5 @@ export default class MessageComponent extends Block<MessageProps> {
     render() {
         return this.compile(message);
     }
+    
 }
