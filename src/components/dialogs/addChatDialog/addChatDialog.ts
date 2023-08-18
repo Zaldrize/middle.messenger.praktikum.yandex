@@ -4,7 +4,6 @@ import DialogBlock from "../dialogBlock/dialogBlock";
 import Button from "../../button";
 import Input from "../../input";
 import './addChatDialog.less'
-import UserSearch from "../../userSearch";
 import ChatController from "../../../controllers/chatController";
 
 export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {
@@ -28,7 +27,6 @@ export default class AddChatDialog extends DialogBlock<AddChatDialogProps> {
                 placeholder: 'Chat name'
              }
         });
-        props.userSearch = new UserSearch();
         super(props);
     }
     addNewChat() {

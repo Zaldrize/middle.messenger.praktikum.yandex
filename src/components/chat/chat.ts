@@ -29,7 +29,7 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
         const currentChatId: number = store.getState()["currentChatId"];
         const lastMessage = last(store.getState()["messages"]) as Message;
         const chatUsers = store.getState()["chatUsers"] as Array<userInfo>;
-        if (this.chat.id === currentChatId) {
+        if (this.chat.id === currentChatId && lastMessage) {
             this._element.classList.add('selected');
             const sender = chatUsers.find(x=>x.id===lastMessage.user_id)!.display_name;
             const text = lastMessage.content;

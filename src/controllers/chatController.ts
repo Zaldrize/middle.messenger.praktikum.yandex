@@ -14,16 +14,15 @@ export default class ChatController {
                 x => {
                     store.set('chats', x);
                     const state = store.getState();
-                    const userId = (store.getState()["user"] as userInfo).id;
                     if (!state["sockets"])
                         state["sockets"] = new Map<number, WebSocket>();
                     x.forEach(chatItem => {
-                        this._chatApi.getChatToken(chatItem.id)
-                            .then(t => {
-                                const token = JSON.parse(t.response).token;
-                                const socket = new MessageWebSocket(chatItem.id, userId, token);
-                                state["sockets"][chatItem.id] = socket;
-                            })
+                        this.getSocket(chatItem.id).then(
+                            (s: MessageWebSocket) => {
+                                state["sockets"][chatItem.id] = s;
+                            }
+
+                        );
                     })
                 }
             );
@@ -83,11 +82,31 @@ export default class ChatController {
     }
     public selectChat(chat: ChatItem) {
         const state = store.getState();
-        state["currentChatId"] = chat.id;
+        this.getSocket(chat.id).then((socket: MessageWebSocket) => {
+            state["currentChatId"] = chat.id;
         state["currentChat"] = chat;
-        state["currentSocket"] = state["sockets"][chat.id];
+        state["currentSocket"] = socket;
         state["messages"] = [];
         this._chatApi.getChatUsers(chat.id).then(x => state["chatUsers"] = x);
-        (state["currentSocket"] as MessageWebSocket).getOldMessages();
+        socket.getOldMessages();
+        })
+        
+    }
+
+    public getSocket(chatId: number): Promise<MessageWebSocket> {        
+        const state = store.getState();        
+        const userId = (store.getState()["user"] as userInfo).id;
+        const sockets = state.sockets as Map<number, MessageWebSocket>;
+        if (sockets && sockets.has(chatId)) {
+            return new Promise<MessageWebSocket>(()=> sockets.get(chatId));
+        }
+        else return this._chatApi
+        .getChatToken(chatId)
+        .then(t => {
+            const token = JSON.parse(t.response).token;
+            const socket = new MessageWebSocket(chatId, userId, token);
+            state["sockets"][chatId] = socket;
+            return socket;
+        })
     }
 }
