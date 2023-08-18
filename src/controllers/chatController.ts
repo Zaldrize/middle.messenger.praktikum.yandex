@@ -25,7 +25,14 @@ export default class ChatController {
                         );
                     })
                 }
-            );
+            )
+            .catch(
+                (reason) => {
+                    console.log('Could not get chats');
+                    console.error(reason);
+                }
+            )
+            ;
 
     }
 
@@ -39,6 +46,13 @@ export default class ChatController {
                     else console.log(x.response);
                 }
             )
+            .catch(
+                (reason) => {
+                    console.log('Could not create chat');
+                    console.error(reason);
+                }
+            )
+            ;
     }
 
     public addUsers(users: Array<number>, chatId: number) {
@@ -59,7 +73,14 @@ export default class ChatController {
             .then(x => {
                 state["chatUsers"] = x;
                 store.emit(StoreEvents.Updated)
-            });
+            })
+            .catch(
+                (reason) => {
+                    console.log('Could not add users to chat');
+                    console.error(reason);
+                }
+            )
+            ;
     }
     public removeUsers(users: Array<number>, chatId: number) {
         const request = new ChatUsersRequest();
@@ -77,7 +98,13 @@ export default class ChatController {
                         store.emit(StoreEvents.Updated);
                     }
                 }
+            ).catch(
+                (reason) => {
+                    console.log('Could not remove users from chat');
+                    console.error(reason);
+                }
             )
+            ;
 
     }
     public selectChat(chat: ChatItem) {
@@ -108,5 +135,6 @@ export default class ChatController {
             state["sockets"][chatId] = socket;
             return socket;
         })
+        
     }
 }
