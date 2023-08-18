@@ -15,10 +15,13 @@ export default class LoginController {
                 if (response.reason === 'User already in system') {
                     return true;
                 }
+                console.log('Could not login');
+                console.log(response.reason);
                 return false;
             },
         )
         .catch((reason: any) => {
+            console.log('Could not login');
             console.log(reason);
             return false;
         });
@@ -34,6 +37,10 @@ export default class LoginController {
                         return true;
                     }
                     return false;
+                }).catch((reason: any) => {
+                    console.log('Could not create new user');
+                    console.log(reason);
+                    return false;
                 });
     }
     
@@ -47,6 +54,9 @@ export default class LoginController {
             (reason: any) => {
                 console.log(reason);
             }
-        )
+        ).catch((reason: any) => {
+            console.log('Could not logout');
+            console.log(reason);
+        });
     }
 }

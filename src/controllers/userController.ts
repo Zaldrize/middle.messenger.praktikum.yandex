@@ -15,19 +15,31 @@ export default class UserController {
                 }
                 return false;
             }
-        );
+        ).catch((reason: any) => {
+            console.log('Could not get user');
+            console.log(reason);
+            return false;
+        });
     }
 
     public saveUserProfile(data: userInfo): void {
         this._userApi.put(data).then(
             ()=> store.set('user', data)
-        );
+        ).catch((reason: any) => {
+            console.log('Could not save user profile');
+            console.log(reason);
+            return false;
+        });
     }
 
     public changeUserPassword(data: PasswordRequest): void {
         this._userApi.changePassword(data).then(
             (x: XMLHttpRequest)=>console.log(x.response)
-        );
+        ).catch((reason: any) => {
+            console.log('Could not change password');
+            console.log(reason);
+            return false;
+        });
     }
 
     public changeAvatar(data: FormData): void {
@@ -38,7 +50,11 @@ export default class UserController {
                     store.set("user", user);
                 }
             }
-        );
+        ).catch((reason: any) => {
+            console.log('Could not change avatar');
+            console.log(reason);
+            return false;
+        });
     }
 
     public search(searchString: string): void {
@@ -49,6 +65,10 @@ export default class UserController {
                     store.set("userSearchResult", users);
                 }
             }
-        )
+        ).catch((reason: any) => {
+            console.log('Could not find users by login');
+            console.log(reason);
+            return false;
+        });
     }
 }

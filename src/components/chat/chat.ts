@@ -8,6 +8,8 @@ import ChatController from "../../controllers/chatController";
 import last from "../../utils/last";
 import Message from "../../models/message";
 import { userInfo } from "../../models/user";
+import chatPic from "../../../static/chatPic.svg";
+import { resourceUrl } from "../../api/base-api";
 
 export default class ChatItemComponent extends Block<ChatItemProps> {
     private chatController = new ChatController();
@@ -15,6 +17,10 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
     constructor(c: ChatItem) {
         const props = new ChatItemProps();
         props.chatName = c.title;
+        props.chatAvatar = chatPic;
+        if (c.avatar) {
+            props.chatAvatar = `${resourceUrl}/${c.avatar}`;
+        }
         props.lastMessageSender = c.last_message?.user.display_name;
         props.lastMessageText = c.last_message?.content;
         props.chatId = c.id;
@@ -29,7 +35,7 @@ export default class ChatItemComponent extends Block<ChatItemProps> {
         const currentChatId: number = store.getState()["currentChatId"];
         const lastMessage = last(store.getState()["messages"]) as Message;
         const chatUsers = store.getState()["chatUsers"] as Array<userInfo>;
-        if (this.chat.id === currentChatId) {
+        if (this.chat.id === currentChatId && lastMessage) {
             this._element.classList.add('selected');
             const sender = chatUsers.find(x=>x.id===lastMessage.user_id)!.display_name;
             const text = lastMessage.content;
