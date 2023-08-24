@@ -9,7 +9,8 @@
     "build": "vite build",
     "prebuild": "tsc --noEmit",
     "preview": "vite preview",
-    "start": "vite build && node server.js"
+    "start": "vite build && node server.js",
+    "test": "mocha"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",

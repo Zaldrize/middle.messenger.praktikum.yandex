@@ -2,5 +2,5 @@
     "extension": ["ts"],
     "spec": "src/**/*.test.ts",
     "loader": "ts-node/esm",    
-    "require": "src/testSetup.cjs"
+    "require": ["src/testSetup.cjs", "ts-node/register"]
 }

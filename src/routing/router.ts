@@ -1,5 +1,5 @@
-import Block from "../components/block/block";
-import Route from "./route";
+import Block from "../components/block/block.ts";
+import Route from "./route.ts";
 
 export class Router {
     private static __instance: Router;
