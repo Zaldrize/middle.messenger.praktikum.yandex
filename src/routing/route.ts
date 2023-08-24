@@ -1,5 +1,5 @@
-import Block from "../components/block/block";
-import { render } from "./renderDOM";
+import Block from "../components/block/block.ts";
+import { render } from "./renderDOM.ts";
 
 export default class Route {
     private _pathname;

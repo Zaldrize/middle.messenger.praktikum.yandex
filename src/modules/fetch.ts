@@ -5,8 +5,11 @@ enum METHOD  {
     DELETE = 'DELETE',
 }
 
-function queryStringify(data: Record<string, any>) {
+export function queryStringify(data: Record<string, any>) {
     const keys = Object.keys(data);
+    if (keys.length === 0) {
+        return '';
+    }
     return keys.reduce((result, key, index) => {
         return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
     }, '?');
