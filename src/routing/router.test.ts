@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { Router } from "./router.ts";
 import Block from "../components/block/block.ts";
+import Sinon from "sinon";
 
 describe('Test router', () => {
     class ExamplePage extends Block<any> {
@@ -31,5 +32,22 @@ describe('Test router', () => {
         router.go('/other');
         expect(router.history.length).to.equal(startLength+1);
     });
+
+    it('Переход назад', () => {
+        const spy = Sinon.spy(window.history, 'back');
+        router.go('/');
+        router.go('/other');
+        router.back();
+        expect(spy.calledOnce).to.equal(true);
+    });
+    it('Переход вперёд', () => {
+        const spy = Sinon.spy(window.history, 'forward');
+        router.go('/');
+        router.go('/other');
+        router.forward();
+        expect(spy.calledOnce).to.equal(true);
+    });
+
+    
 
 });
