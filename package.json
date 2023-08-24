@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "start": "vite build && node server.js",
     "test": "mocha",
-    "lint":  "eslint \"**/*.ts\" && stylelint \"**/*.less\""
+    "lint": "eslint \"**/*.ts\" && stylelint \"**/*.less\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",
