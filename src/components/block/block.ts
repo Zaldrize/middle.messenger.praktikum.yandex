@@ -1,6 +1,6 @@
-import { EventBus } from "./eventBus";
+import { EventBus } from "./eventBus.ts";
 import { v4 as makeUUID } from 'uuid';
-import { IBlockEvents, IBlockProps } from "./types";
+import { IBlockEvents, IBlockProps } from "./types.ts";
 
 // Нельзя создавать экземпляр данного класса
 class Block<T extends IBlockProps> {
