@@ -10,7 +10,8 @@
     "prebuild": "tsc --noEmit",
     "preview": "vite preview",
     "start": "vite build && node server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint":  "eslint \"**/*.ts\" && stylelint \"**/*.less\""
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",
@@ -21,6 +22,7 @@
     "chai": "^4.3.7",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
+    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "postcss-less": "^6.0.0",
